@@ -1,0 +1,68 @@
+# ------ Set Options for Projects --------------- #
+MESSAGE( STATUS "Set Options for Project")
+
+## Set CXX Compiler Version
+SET( CMAKE_CXX_STANDARD 17 )
+
+SET( PROJECT_NAME "Demofile" )
+PROJECT( ${PROJECT_NAME} )
+
+MESSAGE( STATUS "Setting Done")
+# ----------------------------------------------- #
+
+
+
+# ------ Set Files ------------------------------ #
+MESSAGE( STATUS "Set Source File")
+
+## Source Files
+LIST( APPEND SRCS
+    ## Demo file
+    ${DEMOFILE_DIR}/main.cpp
+    ## Log & Timer  
+    ${LOG_DIR}/Timer.h ${LOG_DIR}/Timer.cpp
+    ${LOG_DIR}/Log.h ${LOG_DIR}/Log.cpp
+	)
+
+## Header Files
+LIST( APPEND INCS ${LOG_DIR} )
+
+MESSAGE( STATUS "Setting Done ")
+# ----------------------------------------------- #
+
+
+
+# ------ Set Options for Target Files ----------- #
+MESSAGE( STATUS "Set Options for Target Files")
+
+## Include Header Directories for Target Files
+ADD_EXECUTABLE( ${PROJECT_NAME} ${SRCS} )
+
+TARGET_INCLUDE_DIRECTORIES( ${PROJECT_NAME} PUBLIC ${INCS} )
+
+SET( EXE_DIR ${DEMOFILE_DIR}/build )
+
+IF ( CMAKE_BUILD_TYPE MATCHES Debug )
+    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${EXE_DIR}
+    LIBRARY_OUTPUT_DIRECTORY_DEBUG ${EXE_DIR}
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG ${EXE_DIR}/Debug
+    )
+    MESSAGE( STATUS "Build exe file on Debug mode" )
+ELSEIF ( CMAKE_BUILD_TYPE MATCHES Release )
+    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${EXE_DIR}
+    LIBRARY_OUTPUT_DIRECTORY_RELEASE ${EXE_DIR}
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE ${EXE_DIR}/Release
+    )
+    MESSAGE( STATUS "Build exe file on Release mode" )
+ELSE()
+    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY ${EXE_DIR}
+    LIBRARY_OUTPUT_DIRECTORY ${EXE_DIR}
+    RUNTIME_OUTPUT_DIRECTORY ${EXE_DIR}
+    )
+    MESSAGE( STATUS "Build exe file on Other mode" )
+ENDIF()
+
+MESSAGE( STATUS "Setting Done ")

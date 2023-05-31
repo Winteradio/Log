@@ -1,0 +1,99 @@
+# ------ Set Options for Projects --------------- #
+MESSAGE( STATUS "Set Options for Project" )
+
+## CMake minimum version required
+CMAKE_MINIMUM_REQUIRED(VERSION 3.11)
+## Make Project Name
+SET(PROJECT_NAME "LogProject" )
+## Project name
+PROJECT(${PROJECT_NAME})
+## Set C++ Compiler Version : C++17
+SET( CMAKE_CXX_STANDARD 17 )
+
+MESSAGE( STATUS "Setting Done" )
+# ----------------------------------------------- #
+
+
+
+# ------ Set Path ------------------------------ #
+MESSAGE( STATUS "Set Path" )
+
+## Set Directories
+SET( MAIN_DIR ${CMAKE_SOURCE_DIR} )
+SET( DEMOFILE_DIR ${MAIN_DIR}/demofile )
+SET( LOG_DIR ${MAIN_DIR}/Log )
+SET( SOURCE_DIR )
+
+MESSAGE( STATUS "Setting Done" )
+# ------------------------------------------------ #
+
+
+
+# ------- Set Option ----------------------------- #
+MESSAGE( STATUS "Set Option" )
+
+OPTION( BUILD_STATIC_LIBRARY "Set option for the library which is static or dynamic" ON )
+OPTION( INSTALL_DEMO_FILE "Install demofile for memorymanager" ON )
+## Set Option for install lib, header files' path
+SET( INCLUDE_DIR ${MAIN_DIR}/include CACHE PATH "Header files Path" )
+SET( LIB_DIR ${MAIN_DIR}/lib CACHE PATH "Library files Path" )
+SET( BIN_DIR ${MAIN_DIR}/bin CACHE PATH "Execute files Path" )
+SET( CMAKE_BUILD_TYPE Debug CACHE STRING "Build Type")
+
+MESSAGE( STATUS ${CMAKE_BUILD_TYPE} )
+
+IF ( INSTALL_DEMO_FILE )
+    ADD_SUBDIRECTORY( ${DEMOFILE_DIR} )
+    MESSAGE( STATUS "Install Demofile that use MemoryManager" )
+ENDIF()
+
+INCLUDE_DIRECTORIES( ${LOG_DIR} )
+LIST( APPEND SOURCE_DIR 
+    ${LOG_DIR}/Timer.h ${LOG_DIR}/Timer.cpp 
+    ${LOG_DIR}/Log.h ${LOG_DIR}/Log.cpp
+    )
+
+MESSAGE( STATUS "Setting Done ")
+# ----------------------------------------------- #
+
+
+
+# ------ Create library ---------------- #
+MESSAGE(STATUS "Create Library ")
+
+IF ( BUILD_STATIC_LIBRARY )
+    ADD_LIBRARY( ${PROJECT_NAME} STATIC ${SOURCE_DIR} )
+    MESSAGE( STATUS "Build library as a static" )
+ELSE ()
+    ADD_LIBRARY( ${PROJECT_NAME} SHARED ${SOURCE_DIR} )
+    MESSAGE( STATUS "Build library as a dynamic" )
+ENDIF()
+
+IF ( CMAKE_BUILD_TYPE MATCHES Debug )
+    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${LIB_DIR}
+        LIBRARY_OUTPUT_DIRECTORY_DEBUG ${LIB_DIR}
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BIN_DIR}
+    )
+    MESSAGE( STATUS "Build library on Debug mode" )
+ELSEIF ( CMAKE_BUILD_TYPE MATCHES Release )
+    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${LIB_DIR}
+        LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIB_DIR}
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BIN_DIR}
+    )
+    MESSAGE( STATUS "Build library on Release mode" )
+ELSE()
+    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY ${LIB_DIR}
+        LIBRARY_OUTPUT_DIRECTORY ${LIB_DIR}
+        RUNTIME_OUTPUT_DIRECTORY ${BIN_DIR}
+    )
+    MESSAGE( STATUS "Build library on Other mode" )
+ENDIF()
+
+FILE( COPY ${LOG_DIR}/ DESTINATION ${INCLUDE_DIR}
+    FILES_MATCHING PATTERN "*.h" )
+
+MESSAGE( STATUS "Creating Done ")
+# ----------------------------------------------- #
