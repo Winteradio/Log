@@ -33,7 +33,7 @@ MESSAGE( STATUS "Setting Done" )
 MESSAGE( STATUS "Set Option" )
 
 OPTION( BUILD_STATIC_LIBRARY "Set option for the library which is static or dynamic" ON )
-OPTION( INSTALL_DEMO_FILE "Install demofile for Log" ON )
+OPTION( INSTALL_DEMO_FILE "Install demofile for Log" OFF )
 ## Set Option for install lib, header files' path
 SET( INCLUDE_DIR ${MAIN_DIR}/include CACHE PATH "Header files Path" )
 SET( LIB_DIR ${MAIN_DIR}/lib CACHE PATH "Library files Path" )
