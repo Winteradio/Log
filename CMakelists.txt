@@ -29,7 +29,7 @@ MESSAGE( STATUS "Setting Done" )
 
 
 
-# ------- Set Option ----------------------------- #
+# ------ Set Option ----------------------------- #
 MESSAGE( STATUS "Set Option" )
 
 OPTION( BUILD_STATIC_LIBRARY "Set option for the library which is static or dynamic" ON )
@@ -44,7 +44,9 @@ MESSAGE( STATUS ${CMAKE_BUILD_TYPE} )
 
 IF ( INSTALL_DEMO_FILE )
     ADD_SUBDIRECTORY( ${DEMOFILE_DIR} )
-    MESSAGE( STATUS "Install Demofile that use MemoryManager" )
+    MESSAGE( STATUS "Install Demofile that use Log" )
+ELSE()
+    MESSAGE( STATUS "Do not install Log's Demofile" )
 ENDIF()
 
 INCLUDE_DIRECTORIES( ${LOG_DIR} )
@@ -55,7 +57,6 @@ LIST( APPEND SOURCE_DIR
 
 MESSAGE( STATUS "Setting Done ")
 # ----------------------------------------------- #
-
 
 
 # ------ Create library ---------------- #
