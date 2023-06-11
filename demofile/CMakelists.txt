@@ -4,8 +4,8 @@ MESSAGE( STATUS "Set Options for Project")
 ## Set CXX Compiler Version
 SET( CMAKE_CXX_STANDARD 17 )
 
-SET( PROJECT_NAME "Demofile" )
-PROJECT( ${PROJECT_NAME} )
+SET( DEMO_NAME "Demofile" )
+PROJECT( ${DEMO_NAME} )
 
 MESSAGE( STATUS "Setting Done")
 # ----------------------------------------------- #
@@ -19,13 +19,7 @@ MESSAGE( STATUS "Set Source File")
 LIST( APPEND SRCS
     ## Demo file
     ${DEMOFILE_DIR}/main.cpp
-    ## Log & Timer  
-    ${LOG_DIR}/Timer.h ${LOG_DIR}/Timer.cpp
-    ${LOG_DIR}/Log.h ${LOG_DIR}/Log.cpp
 	)
-
-## Header Files
-LIST( APPEND INCS ${LOG_DIR} )
 
 MESSAGE( STATUS "Setting Done ")
 # ----------------------------------------------- #
@@ -39,28 +33,37 @@ MESSAGE( STATUS "Set Options for Target Files")
 IF ( WIN32 )
     MESSAGE( STATUS "Windows Platform for demofile")
     SET( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1 )
-    ADD_EXECUTABLE( ${PROJECT_NAME} WIN32 ${SRCS} )
+    ADD_EXECUTABLE( ${DEMO_NAME} WIN32 ${SRCS} )
 ELSE ()
     MESSAGE( STATUS "Other Platform for demofile")
-    ADD_EXECUTABLE( ${PROJECT_NAME} ${SRCS} )
+    ADD_EXECUTABLE( ${DEMO_NAME} ${SRCS} )
 ENDIF()
 
-TARGET_INCLUDE_DIRECTORIES( ${PROJECT_NAME} PUBLIC ${INCS} )
+TARGET_INCLUDE_DIRECTORIES(${DEMO_NAME} PRIVATE ${INCLUDE_DIR})
+TARGET_LINK_DIRECTORIES( ${DEMO_NAME} PRIVATE ${LIB_DIR} )
+TARGET_LINK_LIBRARIES( ${DEMO_NAME} PRIVATE LogProject )
 
-SET( EXE_DIR ${DEMOFILE_DIR}/build )
+ADD_DEPENDENCIES( ${DEMO_NAME} ${PROJECT_NAME} )
+# Copy the LogProject.dll file to the output directory
+ADD_CUSTOM_COMMAND(TARGET ${DEMO_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${LIB_DIR}/LogProject.dll $<TARGET_FILE_DIR:${DEMO_NAME}>
+)
+
+SET( EXE_DIR ${CMAKE_SOURCE_DIR}/build )
 
 IF ( CMAKE_BUILD_TYPE MATCHES Debug )
-    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
+    SET_TARGET_PROPERTIES( ${DEMO_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_DEBUG ${EXE_DIR}/Debug
     )
     MESSAGE( STATUS "Build exe file on Debug mode" )
 ELSEIF ( CMAKE_BUILD_TYPE MATCHES Release )
-    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
+    SET_TARGET_PROPERTIES( ${DEMO_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${EXE_DIR}/Release
     )
     MESSAGE( STATUS "Build exe file on Release mode" )
 ELSE()
-    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
+    SET_TARGET_PROPERTIES( ${DEMO_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${EXE_DIR}
     )
     MESSAGE( STATUS "Build exe file on Other mode" )
