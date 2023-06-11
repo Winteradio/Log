@@ -2,6 +2,7 @@
 #include <Log.h>
 
 #ifdef _WIN32
+
 int CALLBACK WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
 {
     Log::Info(" Windows ");
@@ -14,12 +15,7 @@ int main()
     Log::Warn(" This Log Status is Warn ");
     Log::Error(" This Log Status is Error ");
 
-    for ( auto Message : Log::GetMessage() )
-    {
-        std::cout << Message << std::endl;
-    }
-
-    system("pause");
+    Log::Print();
 
     return 0;
 }

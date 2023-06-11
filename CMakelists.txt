@@ -2,13 +2,15 @@
 MESSAGE( STATUS "Set Options for Project" )
 
 ## CMake minimum version required
-CMAKE_MINIMUM_REQUIRED(VERSION 3.11)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.20)
 ## Make Project Name
 SET(PROJECT_NAME "LogProject" )
 ## Project name
 PROJECT(${PROJECT_NAME})
 ## Set C++ Compiler Version : C++17
 SET( CMAKE_CXX_STANDARD 17 )
+
+set( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1 )
 
 MESSAGE( STATUS "Setting Done" )
 # ----------------------------------------------- #
@@ -32,7 +34,7 @@ MESSAGE( STATUS "Setting Done" )
 # ------ Set Option ----------------------------- #
 MESSAGE( STATUS "Set Option" )
 
-OPTION( BUILD_STATIC_LIBRARY "Set option for the library which is static or dynamic" ON )
+OPTION( BUILD_STATIC_LIBRARY "Set option for the library which is static or dynamic" OFF )
 OPTION( INSTALL_DEMO_FILE "Install demofile for Log" OFF )
 ## Set Option for install lib, header files' path
 SET( INCLUDE_DIR ${MAIN_DIR}/include CACHE PATH "Header files Path" )
@@ -51,9 +53,14 @@ ENDIF()
 
 INCLUDE_DIRECTORIES( ${LOG_DIR} )
 LIST( APPEND SOURCE_DIR 
-    ${LOG_DIR}/Timer.h ${LOG_DIR}/Timer.cpp 
-    ${LOG_DIR}/Log.h ${LOG_DIR}/Log.cpp
+    ${LOG_DIR}/Timer.cpp 
+    ${LOG_DIR}/Log.cpp
     )
+
+IF ( WIN32 )
+    MESSAGE( STATUS "Windows Platform for library")
+    SET( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1 )
+ENDIF()
 
 MESSAGE( STATUS "Setting Done ")
 # ----------------------------------------------- #
@@ -93,7 +100,7 @@ ELSE()
     MESSAGE( STATUS "Build library on Other mode" )
 ENDIF()
 
-FILE( COPY ${LOG_DIR}/ DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME}
+FILE( COPY ${LOG_DIR}/ DESTINATION ${INCLUDE_DIR}
     FILES_MATCHING PATTERN "*.h" )
 
 MESSAGE( STATUS "Creating Done ")

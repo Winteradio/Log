@@ -2,16 +2,11 @@
 #define __LOG_H__
 
 #include "Timer.h"
-#include "vector"
+#include <vector>
+#include <iostream>
 
 #define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #pragma warning( disable : 4996 )
-
-#ifdef _WIN32
-	// Windows Code
-	#pragma comment(linker, "/entry:WinMainCRTStartup")
-	#pragma comment(linker, "/subsystem:console")
-#endif
 
 class Log
 {
@@ -26,6 +21,7 @@ class Log
 
 		static std::vector<std::string>& GetMessage();
 		static void Clear();
+		static void Print();
 
 	private :
 		static Log m_Log;

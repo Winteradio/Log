@@ -36,7 +36,14 @@ MESSAGE( STATUS "Setting Done ")
 MESSAGE( STATUS "Set Options for Target Files")
 
 ## Include Header Directories for Target Files
-ADD_EXECUTABLE( ${PROJECT_NAME} ${SRCS} )
+IF ( WIN32 )
+    MESSAGE( STATUS "Windows Platform for demofile")
+    SET( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1 )
+    ADD_EXECUTABLE( ${PROJECT_NAME} WIN32 ${SRCS} )
+ELSE ()
+    MESSAGE( STATUS "Other Platform for demofile")
+    ADD_EXECUTABLE( ${PROJECT_NAME} ${SRCS} )
+ENDIF()
 
 TARGET_INCLUDE_DIRECTORIES( ${PROJECT_NAME} PUBLIC ${INCS} )
 
@@ -60,3 +67,4 @@ ELSE()
 ENDIF()
 
 MESSAGE( STATUS "Setting Done ")
+# ----------------------------------------------- #
