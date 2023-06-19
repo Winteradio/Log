@@ -1,6 +1,8 @@
 # ------ Set Options for Projects --------------- #
 MESSAGE( STATUS "Set Options for Project")
 
+## CMake minimum version required
+CMAKE_MINIMUM_REQUIRED(VERSION 3.20)
 ## Set CXX Compiler Version
 SET( CMAKE_CXX_STANDARD 17 )
 
@@ -14,6 +16,10 @@ MESSAGE( STATUS "Setting Done")
 
 # ------ Set Files ------------------------------ #
 MESSAGE( STATUS "Set Source File")
+
+IF ( NOT DEFINED DEMOFILE_DIR )
+    SET( DEMOFILE_DIR ${CMAKE_SOURCE_DIR} )
+ENDIF()
 
 ## Source Files
 LIST( APPEND SRCS
@@ -60,11 +66,10 @@ SET( DEP_INCLUDE )
 SET( DEP_LIBS )
 SET( DEP_LIST )
 
-SET( DEMO_MAIN_DIR ${CMAKE_SOURCE_DIR}/demofile )
-SET( DEMO_INCLUDE_DIR ${DEMO_MAIN_DIR}/build/include )
-SET( DEMO_LIB_DIR ${DEMO_MAIN_DIR}/build/lib )
-SET( DEMO_BIN_DIR ${DEMO_MAIN_DIR}/build/bin )
-SET( DEMO_ARC_DIR ${DEMO_MAIN_DIR}/build/arc )
+SET( DEMO_INCLUDE_DIR ${DEMOFILE_DIR}/build/include )
+SET( DEMO_LIB_DIR ${DEMOFILE_DIR}/build/lib )
+SET( DEMO_BIN_DIR ${DEMOFILE_DIR}/build/bin )
+SET( DEMO_ARC_DIR ${DEMOFILE_DIR}/build/arc )
 
 EXTERNALPROJECT_ADD(
 	LogProject_demo
@@ -113,7 +118,7 @@ MESSAGE(STATUS "Setting Done ")
 # ------ Set Executable file -------------------- #
 MESSAGE(STATUS "Set Options for Target Files")
 
-SET( EXE_DIR ${DEMO_MAIN_DIR}/build )
+SET( EXE_DIR ${DEMOFILE_DIR}/build )
 
 IF ( CMAKE_BUILD_TYPE MATCHES Debug )
     SET_TARGET_PROPERTIES( ${DEMO_NAME} PROPERTIES
