@@ -32,7 +32,7 @@ MESSAGE( STATUS "Setting Done" )
 # ------ Set Option ----------------------------- #
 MESSAGE( STATUS "Set Option" )
 
-OPTION( BUILD_STATIC_LIBRARY "Set option for the library which is static or dynamic" ON )
+OPTION( BUILD_STATIC_LIBRARY "Set option for the library which is static or dynamic" OFF )
 OPTION( INSTALL_DEMO_FILE "Install demofile for Log" OFF )
 ## Set Option for install lib, header files' path
 SET( INCLUDE_DIR ${MAIN_DIR}/build/include CACHE PATH "Header files Path" )
@@ -69,10 +69,12 @@ ELSE ()
     MESSAGE( STATUS "Build library as a dynamic" )
 ENDIF()
 
-FILE( COPY ${LOG_DIR}/ DESTINATION ${INCLUDE_DIR}
+FILE( MAKE_DIRECTORY ${INCLUDE_DIR}/${PROJECT_NAME} )
+
+FILE( COPY ${LOG_DIR}/ DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME}
     FILES_MATCHING PATTERN "*.h" )
 
-    IF ( CMAKE_BUILD_TYPE MATCHES Debug )
+IF ( CMAKE_BUILD_TYPE MATCHES Debug )
     SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
         ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${ARC_DIR}
         LIBRARY_OUTPUT_DIRECTORY_DEBUG ${LIB_DIR}
