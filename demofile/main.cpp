@@ -1,5 +1,5 @@
 #include <iostream>
-#include <Log.h>
+#include <LogProject/Log.h>
 
 #ifdef _WIN32
 
