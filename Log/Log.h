@@ -2,6 +2,8 @@
 #define __LOG_H__
 
 #include "Timer.h"
+#include "Except.h"
+
 #include <vector>
 #include <iostream>
 
