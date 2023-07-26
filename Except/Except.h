@@ -14,8 +14,7 @@ class Except : public std::exception
         virtual ~Except();
 
     public :
-        const char* what() const noexcept override;
-        const char* GetMessage();
+        virtual const char* what() const noexcept override;
 
     private :
         std::string m_Message;
