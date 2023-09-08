@@ -53,7 +53,7 @@ void Log::Print()
 {
 	for ( auto Message : m_Message )
 	{
-		std::cout << Message << std::endl;
+		printf("%s\n", Message.c_str() );
 	}
 
 	system("pause");

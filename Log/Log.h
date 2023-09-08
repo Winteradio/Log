@@ -5,7 +5,7 @@
 #include "Except.h"
 
 #include <vector>
-#include <iostream>
+#include <stdio.h>
 
 #define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #pragma warning( disable : 4996 )

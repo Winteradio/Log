@@ -101,32 +101,6 @@ MESSAGE( STATUS "Downloading Done" )
 
 
 
-#### Window SDK ---------------------------------- #
-IF ( WIN32 )
-    MESSAGE( STATUS "Window - Linking : WINDOW SDK")
-
-    SET( WINDOWSDK_INCLUDE_DIR
-        "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared"
-        "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um"
-        "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt
-        ")
-
-    SET( WINDOWSDK_LIB_DIR
-        "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um"
-        )
-
-    SET( WINDOWSDK_LIBS winMM.lib Pdh.lib)
-
-    LIST( APPEND DEP_INCLUDE ${WINDOWSDK_INCLUDE_DIR} )
-    LIST( APPEND DEP_LIB_DIR ${WINDOWSDK_LIB_DIR} )
-    LIST( APPEND DEP_LIBS ${WINDOWSDK_LIBS} )
-
-    MESSAGE( STATUS "WindowSDK - Done")
-ENDIF()
-#### Window SDK ---------------------------------- #
-
-
-
 # ------ Link LogProject on Target  ------------- #
 MESSAGE(STATUS "Set Options for Target Files")
 
