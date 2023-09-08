@@ -1,5 +1,6 @@
 #include <iostream>
 #include <LogProject/Log.h>
+#include <windows.h>
 
 void Example()
 {
@@ -10,11 +11,10 @@ void Example()
 }
 
 #ifdef _WIN32
-
 int CALLBACK WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
 {
     Log::Info(" Windows ");
-#elif __linux__
+#else
 int main()
 {
     Log::Info(" Linux ");
