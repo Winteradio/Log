@@ -3,6 +3,10 @@
 
 #include "Timer.h"
 
+#ifndef _WIN32
+#include <cstring>
+#endif
+
 #include <exception>
 #include <cstdarg>
 
