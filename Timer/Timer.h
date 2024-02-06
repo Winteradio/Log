@@ -55,11 +55,11 @@ class Timer
 		}
 
 	private :
-		static char m_Temp[ MAX_LENGTH ];
 		static std::string m_CurrentTime;
 		static std::string m_ValueString;
 
 #ifdef __linux__
+		static char m_Temp[ MAX_LENGTH ];
 		static struct timeval m_TimeVal;
 		static struct tm* m_pCurrentTimeSec;
 		static time_t m_CurrentTimeSec;
