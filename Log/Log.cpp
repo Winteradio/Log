@@ -14,99 +14,111 @@ namespace LogStorage
 		}
 	};
 
+	unsigned short m_nMaxCount = 1024;
 	std::vector<std::string> m_vLogMessage;
 	std::map<Log::Type, std::vector<unsigned short>, LogTypeCompare> m_mLogType;
 }
 
-void Log::SetLog(const Type _eType, const char* _pFileName, const unsigned int _nLine, const char* _pMessage, ...)
+namespace Log
 {
-	std::string strMessage = "[Time] " + VarUtils::GetTime();
-
-	strMessage += " [Type] ";
-	switch(_eType)
+	std::string ConvertTypeToString(const Type _eType)
 	{
-		case Type::eInfo :
+		std::string strType;
+
+		if (_eType == Type::eInfo)
 		{
-			strMessage += "INFO";
-			break;
+			strType += "INFO";
+		}
+		else if (_eType == Type::eError)
+		{
+			strType += "ERROR";
+		}
+		else if (_eType == Type::eWarn)
+		{
+			strType += "WARN";
+		}
+		else
+		{
+			strType += "UNKNOWN";
 		}
 
-		case Type::eError :
-		{
-			strMessage += "ERROR";
-			break;
-		}
-
-		case Type::eWarn :
-		{
-			strMessage += "WARN";
-			break;
-		}
-
-		case Type::eUnknown :
-		{
-			strMessage += "UNKNOWN";
-			break;
-		}
+		return strType;
 	}
 
-	if (nullptr != _pFileName)
+	void Set(const Type _eType, const char* _pFileName, const unsigned int _nLine, const char* _pMessage, ...)
 	{
-		strMessage += " [File] " + std::string(_pFileName);
-	}
+		std::string strMessage = "";
+		
+		strMessage += " [Time] " + VarUtils::GetTime();
+		strMessage += " [Type] " + ConvertTypeToString(_eType);
+		strMessage += " [File] " + (nullptr != _pFileName ? std::string(_pFileName) : "");
+		strMessage += " [Line] " + std::to_string(_nLine);
 
-	strMessage += " [Line] " + std::to_string(_nLine);
+		va_list pArgs;
+		va_start(pArgs, _pMessage);
+		strMessage += " [Log] " + VarUtils::GetString(_pMessage, pArgs);
+		va_end(pArgs);
 
-	va_list pArgs;
-	va_start(pArgs, _pMessage);
-	strMessage += " [Log] " + VarUtils::GetString(_pMessage, pArgs);
-	va_end(pArgs);
-
-	const unsigned short logIndex = static_cast<unsigned short>(LogStorage::m_vLogMessage.size());
-	LogStorage::m_vLogMessage.push_back(strMessage);
-
-	if ((_eType == Type::eInfo) 
-		|| (_eType == Type::eError)
-		|| (_eType == Type::eWarn))
-	{
-		LogStorage::m_mLogType[_eType].push_back(logIndex);
-	}
-}
-
-const std::vector<std::string> Log::GetLog(const Type _eType)
-{
-	std::vector<std::string> vLogMessage;
-
-	const auto itr = LogStorage::m_mLogType.find(_eType);
-	if (itr != LogStorage::m_mLogType.end())
-	{
-		const auto vLogIndex = itr->second;
-		for (const auto index : vLogIndex)
+		unsigned short logIndex = static_cast<unsigned short>(LogStorage::m_vLogMessage.size());
+		if (logIndex >= LogStorage::m_nMaxCount)
 		{
-			const auto logMessage = LogStorage::m_vLogMessage[index];
-			vLogMessage.emplace_back(logMessage);
+			Handler::Clear();
+			logIndex = 0;
+		}
+		LogStorage::m_vLogMessage.push_back(strMessage);
+
+		if ((_eType == Type::eInfo) 
+			|| (_eType == Type::eError)
+			|| (_eType == Type::eWarn))
+		{
+			LogStorage::m_mLogType[_eType].push_back(logIndex);
 		}
 	}
-	else
+
+	const std::vector<std::string> Get(const Type _eType)
 	{
-		vLogMessage = LogStorage::m_vLogMessage;
+		std::vector<std::string> vLogMessage;
+
+		const auto itr = LogStorage::m_mLogType.find(_eType);
+		if (itr != LogStorage::m_mLogType.end())
+		{
+			const auto vLogIndex = itr->second;
+			for (const auto index : vLogIndex)
+			{
+				const auto logMessage = LogStorage::m_vLogMessage[index];
+				vLogMessage.emplace_back(logMessage);
+			}
+		}
+		else
+		{
+			vLogMessage = LogStorage::m_vLogMessage;
+		}
+
+		return vLogMessage;
 	}
 
-	return vLogMessage;
-}
-
-void Log::Clear()
-{
-	LogStorage::m_vLogMessage.clear();
-	LogStorage::m_mLogType.clear();
-}
-
-void Log::Print(const Type _eType)
-{
-	const auto vLogMessage = GetLog(_eType);
-
-	for (auto logMessage : vLogMessage)
+	namespace Handler
 	{
-		printf("%s\n", logMessage.c_str());
+		void Init(const unsigned short _nMaxCount)
+		{
+			LogStorage::m_nMaxCount = _nMaxCount;
+			LogStorage::m_vLogMessage.reserve(_nMaxCount);
+		}
+
+		void Clear()
+		{
+			LogStorage::m_vLogMessage.clear();
+			LogStorage::m_mLogType.clear();
+		}
+
+		void Print(const Type _eType)
+		{
+			const auto vLogMessage = Get(_eType);
+
+			for (auto logMessage : vLogMessage)
+			{
+				printf("%s\n", logMessage.c_str());
+			}
+		}
 	}
 }

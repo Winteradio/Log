@@ -7,9 +7,9 @@
 
 #define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 
-#define LOGINFO(__MESSAGE__, ...)	Log::SetLog(Log::Type::eInfo, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
-#define LOGERROR(__MESSAGE__, ...)	Log::SetLog(Log::Type::eError, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
-#define LOGWARN(__MESSAGE__, ...)	Log::SetLog(Log::Type::eWarn, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
+#define LOGINFO(__MESSAGE__, ...)	Log::Set(Log::Type::eInfo, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
+#define LOGERROR(__MESSAGE__, ...)	Log::Set(Log::Type::eError, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
+#define LOGWARN(__MESSAGE__, ...)	Log::Set(Log::Type::eWarn, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
 
 namespace Log
 {
@@ -22,12 +22,15 @@ namespace Log
 		eVerbose
 	};
 
-	void SetLog(const Type _eType, const char* _pFileName, const unsigned int _nLine, const char* _pMessage, ...);
+	void Set(const Type _eType, const char* _pFileName, const unsigned int _nLine, const char* _pMessage, ...);
+	const std::vector<std::string> Get(const Type _eType = Type::eVerbose);
 
-	const std::vector<std::string> GetLog(const Type _eType = Type::eVerbose);
-
-	void Clear();
-	void Print(const Type _eType = Type::eVerbose);
+	namespace Handler
+	{
+		void Init(const unsigned short _nMaxCount);
+		void Print(const Type _eType = Type::eVerbose);
+		void Clear();
+	};
 };
 
 #endif // __LOG_H__
