@@ -24,9 +24,6 @@ SET( DEMOFILE_DIR ${MAIN_DIR}/demofile )
 
 SET( EXCEPT_DIR ${MAIN_DIR}/Except )
 SET( LOG_DIR ${MAIN_DIR}/Log )
-SET( TIMER_DIR ${MAIN_DIR}/Timer )
-
-SET( SOURCE_DIR )
 
 MESSAGE( STATUS "Setting Done" )
 # ------------------------------------------------ #
@@ -47,18 +44,20 @@ SET( CMAKE_BUILD_TYPE Debug CACHE STRING "Build Type")
 
 MESSAGE( STATUS ${CMAKE_BUILD_TYPE} )
 
-INCLUDE_DIRECTORIES( ${LOG_DIR} ${EXCEPT_DIR} ${TIMER_DIR} )
-LIST( APPEND FOLDER_DIR ${LOG_DIR} ${EXCEPT_DIR} ${TIMER_DIR} )
+LIST( APPEND FOLDER_DIR ${LOG_DIR} ${EXCEPT_DIR} )
 LIST( APPEND SOURCE_DIR 
-    ${EXCEPT_DIR}/Except.h ${EXCEPT_DIR}/Except.cpp 
     ${LOG_DIR}/Log.h ${LOG_DIR}/Log.cpp
-    ${TIMER_DIR}/Timer.h ${TIMER_DIR}/Timer.cpp
-    )
+    ${LOG_DIR}/VarUtils.h ${LOG_DIR}/VarUtils.cpp
+
+    ${EXCEPT_DIR}/Except.h ${EXCEPT_DIR}/Except.cpp 
+)
 
 IF ( WIN32 )
     MESSAGE( STATUS "Windows Platform for library")
     SET( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1 )
 ENDIF()
+
+INCLUDE_DIRECTORIES( ${FOLDER_DIR} )
 
 MESSAGE( STATUS "Setting Done ")
 # ----------------------------------------------- #

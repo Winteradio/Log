@@ -1,33 +1,36 @@
 #ifndef __LOG_H__
 #define __LOG_H__
 
-#include "Timer.h"
-#include "Except.h"
-
+#pragma warning( disable : 4996 )
 #include <vector>
-#include <stdio.h>
+#include <string>
 
 #define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
-#pragma warning( disable : 4996 )
 
-class Log
+#define LOGINFO(__MESSAGE__, ...)	Log::Set(Log::Type::eInfo, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
+#define LOGERROR(__MESSAGE__, ...)	Log::Set(Log::Type::eError, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
+#define LOGWARN(__MESSAGE__, ...)	Log::Set(Log::Type::eWarn, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
+
+namespace Log
 {
-	private :
-		Log();
-		~Log();
+	enum class Type : unsigned char
+	{
+		eUnknown = 0,
+		eInfo,
+		eError,
+		eWarn,
+		eVerbose
+	};
 
-	public :
-		static void Info( const char* Str, ... );
-		static void Error( const char* Str, ... );
-		static void Warn( const char* Str, ... );
+	void Set(const Type _eType, const char* _pFileName, const unsigned int _nLine, const char* _pMessage, ...);
+	const std::vector<std::string> Get(const Type _eType = Type::eVerbose);
 
-		static std::vector<std::string>& GetMessage();
-		static void Clear();
-		static void Print();
-
-	private :
-		static Log m_Log;
-		static std::vector<std::string> m_Message;
+	namespace Handler
+	{
+		void Init(const unsigned short _nMaxCount);
+		void Print(const Type _eType = Type::eVerbose);
+		void Clear();
+	};
 };
 
 #endif // __LOG_H__
