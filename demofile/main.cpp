@@ -6,6 +6,18 @@ void Example()
     LOGINFO(" Hello World! ");
     LOGWARN(" Comming Exception");    
     
+    while (true)
+    {
+        static int value = 0;
+        value++;
+        LOGINFO(" Count : %d", value);
+
+        if (value > 50000)
+        {
+            break;
+        }
+    }
+
     throw Except("Something went wrong! %d ", 999 );
 
     LOGINFO(" After Exception");
@@ -33,11 +45,11 @@ int main()
         LOGERROR(e.what());
     }
 
-    Log::Print();
+    Log::Handler::Print();
 
-    Log::Clear();
+    Log::Handler::Clear();
     LOGINFO(" Resume Log ");
-    Log::Print();
+    Log::Handler::Print();
 
     system("pause");
 
