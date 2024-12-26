@@ -15,88 +15,32 @@ MESSAGE( STATUS "Setting Done")
 
 
 # ------ Set Files ------------------------------ #
-MESSAGE( STATUS "Set Source File")
+MESSAGE( STATUS "Set File")
 
-IF ( NOT DEFINED DEMOFILE_DIR )
-    SET( DEMOFILE_DIR ${CMAKE_SOURCE_DIR} )
+IF ( NOT DEFINED DEMO_FOLDER_DIR )
+    SET( DEMO_FOLDER_DIR ${CMAKE_SOURCE_DIR} )
 ENDIF()
 
-## Source Files
-LIST( APPEND SRCS
-    ## Demo file
-    ${DEMOFILE_DIR}/main.cpp
-	)
+MESSAGE( STATUS "${DEMO_FOLDER_DIR}" )
 
-MESSAGE( STATUS "Setting Done ")
-# ----------------------------------------------- #
-
-
-
-# ------ Set Options for Target Files ----------- #
-MESSAGE( STATUS "Add Executable by platform")
-
-## Include Header Directories for Target Files
-IF ( WIN32 )
-    MESSAGE( STATUS "Windows Platform for demofile")
-    ADD_EXECUTABLE( ${DEMO_NAME} WIN32 ${SRCS} )
-    SET( STATIC_LIB lib )
-    SET( DYNAMIC_LIB dll )
-ELSE ()
-    MESSAGE( STATUS "Other Platform for demofile")
-    ADD_EXECUTABLE( ${DEMO_NAME} ${SRCS} )
-    SET( STATIC_LIB a )
-    SET( DYNAMIC_LIB so )
-ENDIF()
-
-MESSAGE( STATUS "Setting Done" )
-# ----------------------------------------------- #
-
-
-
-# ------ Download LogProject in Github ---------- #
-MESSAGE( STATUS "Download LogProject" )
-
-INCLUDE( ExternalProject )
-
-SET( DEP_INCLUDE )
-SET( DEP_LIB_DIR )
-SET( DEP_LIBS )
-SET( DEP_LIST )
-
-SET( DEMO_INCLUDE_DIR ${DEMOFILE_DIR}/build/include )
-SET( DEMO_LIB_DIR ${DEMOFILE_DIR}/build/lib )
-SET( DEMO_BIN_DIR ${DEMOFILE_DIR}/build/Debug )
-SET( DEMO_ARC_DIR ${DEMOFILE_DIR}/build/arc )
-
-SET( PROJECTLIST )
-
-SET( PROJECT LogProject )
-
-LIST( APPEND PROJECTLIST PROJECT )
-
-EXTERNALPROJECT_ADD(
-	${PROJECT}
-	GIT_REPOSITORY GIT_REPOSITORY https://github.com/Winteradio/Log.git
-	GIT_TAG "v2.3.0"
-
-	PREFIX ${CMAKE_BINARY_DIR}/Prefix/${PROJECT}
-
-	UPDATE_COMMAND "" PATCH_COMMAND "" TEST_COMMAND "" INSTALL_COMMAND ""
-	CMAKE_ARGS 
-		-DINCLUDE_DIR=${DEMO_INCLUDE_DIR}
-		-DLIB_DIR=${DEMO_LIB_DIR}
-		-DBIN_DIR=${DEMO_BIN_DIR}
-        -DARC_DIR=${DEMO_ARC_DIR}
-		-DCMAKE_BUILD_TYPE=Debug
-		-DBUILD_STATIC_LIBRARY=OFF
- 		-DINSTALL_DEMO_FILE=OFF 
+## Header Files
+LIST( APPEND DEMO_FOLDER_LIST 
+    ${DEMO_FOLDER_DIR}/../Log
+    ${DEMO_FOLDER_DIR}/../Except    
 )
 
-LIST( APPEND DEP_LIST ${PROJECT} )
-LIST( APPEND DEP_INCLUDE ${DEMO_INCLUDE_DIR} )
-LIST( APPEND DEP_LIBS ${DEMO_ARC_DIR}/${PROJECT}.${STATIC_LIB} )
+## Source Files
+LIST( APPEND DEMO_SOURCE_LIST
+    ## Demo file
+    ${DEMO_FOLDER_DIR}/main.cpp
 
-MESSAGE( STATUS "Downloading Done" )
+    ${DEMO_FOLDER_DIR}/../Log/Log.h ${DEMO_FOLDER_DIR}/../Log/Log.cpp
+    ${DEMO_FOLDER_DIR}/../Log/VarUtils.h ${DEMO_FOLDER_DIR}/../Log/VarUtils.cpp
+
+    ${DEMO_FOLDER_DIR}/../Except/Except.h ${DEMO_FOLDER_DIR}/../Except/Except.cpp
+)
+
+MESSAGE( STATUS "Setting Done ")
 # ----------------------------------------------- #
 
 
@@ -104,10 +48,14 @@ MESSAGE( STATUS "Downloading Done" )
 # ------ Link LogProject on Target  ------------- #
 MESSAGE(STATUS "Set Options for Target Files")
 
-TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC ${DEP_INCLUDE})
-TARGET_LINK_DIRECTORIES(${PROJECT_NAME} PUBLIC ${DEMO_LIB_DIR} ${DEP_LIB_DIR} )
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} PUBLIC ${DEP_LIBS})
-ADD_DEPENDENCIES(${PROJECT_NAME} ${DEP_LIST})
+IF ( WIN32 )
+    MESSAGE( STATUS "Windows Platform for demofile")
+    ADD_EXECUTABLE( ${DEMO_NAME} WIN32 ${DEMO_SOURCE_LIST} )
+    SET( STATIC_LIB lib )
+    SET( DYNAMIC_LIB dll )
+ELSE ()
+    MESSAGE( STATUS "Other Platform for demofile")
+ENDIF()
 
 MESSAGE(STATUS "Setting Done ")
 # ----------------------------------------------- #
@@ -117,7 +65,9 @@ MESSAGE(STATUS "Setting Done ")
 # ------ Set Executable file -------------------- #
 MESSAGE(STATUS "Set Options for Target Files")
 
-SET( EXE_DIR ${DEMOFILE_DIR}/build )
+TARGET_INCLUDE_DIRECTORIES(${DEMO_NAME} PUBLIC ${DEMO_FOLDER_LIST})
+
+SET( EXE_DIR ${DEMO_FOLDER_DIR}/build )
 
 IF ( CMAKE_BUILD_TYPE MATCHES Debug )
     SET_TARGET_PROPERTIES( ${DEMO_NAME} PROPERTIES
@@ -138,3 +88,5 @@ ENDIF()
 
 MESSAGE( STATUS "Setting Done ")
 # ----------------------------------------------- #
+
+ADD_DEFINITIONS( -DTEST_PATH="${EXE_DIR}")
