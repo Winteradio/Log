@@ -1,0 +1,4 @@
+LogManager
+ -> Log Container에 저장
+ -> 2024개 저장
+ -> Time 별로, Type 별로 정

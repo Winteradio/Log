@@ -1,24 +1,23 @@
-#include "Log.h"
-#include "Except.h"
+#include <iostream>
+#include <LogProject/Log.h>
 
 void Example()
 {
-    LOGINFO(" Hello World! ");
-    LOGWARN(" Comming Exception");    
-    
-    throw Except("Something went wrong! %d ", 999 );
+    Log::Info(" Hello World! ");
+    //throw Except("Something went wrong! %d ", 999 );
 
-    LOGINFO(" After Exception");
+    std::string Path = TEST_PATH;
+    Log::Info(" %s ", Path.c_str() );
+    Log::Warn(" The Stack is not escaped!! ");
 }
 
 #ifdef _WIN32
-    #include <windows.h>
     #pragma comment(linker, "/entry:WinMainCRTStartup")
     #pragma comment(linker, "/subsystem:console")
 
 int CALLBACK WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
 {
-    LOGINFO(" Platform is Windows");
+    Log::Info(" Windows ");
 #else
 int main()
 {
@@ -30,16 +29,10 @@ int main()
     }
     catch (const Except& e)
     {
-        LOGERROR(e.what());
+        Log::Error( e.what() );
     }
 
     Log::Print();
-
-    Log::Clear();
-    LOGINFO(" Resume Log ");
-    Log::Print();
-
-    system("pause");
 
     return 0;
 }
