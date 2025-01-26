@@ -3,7 +3,6 @@
 #pragma comment(linker, "/subsystem:console")
 
 #include "Log.h"
-#include "LogManager.h"
 
 void Example_Level()
 {
