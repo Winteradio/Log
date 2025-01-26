@@ -25,8 +25,7 @@ MESSAGE( STATUS "${DEMO_FOLDER_DIR}" )
 
 ## Header Files
 LIST( APPEND DEMO_FOLDER_LIST 
-    ${DEMO_FOLDER_DIR}/../Log
-    ${DEMO_FOLDER_DIR}/../Except    
+    ${DEMO_FOLDER_DIR}/../Log 
 )
 
 ## Source Files
@@ -35,9 +34,17 @@ LIST( APPEND DEMO_SOURCE_LIST
     ${DEMO_FOLDER_DIR}/main.cpp
 
     ${DEMO_FOLDER_DIR}/../Log/Log.h ${DEMO_FOLDER_DIR}/../Log/Log.cpp
-    ${DEMO_FOLDER_DIR}/../Log/VarUtils.h ${DEMO_FOLDER_DIR}/../Log/VarUtils.cpp
+    
+    ${DEMO_FOLDER_DIR}/../Log/LogConstants.h
 
-    ${DEMO_FOLDER_DIR}/../Except/Except.h ${DEMO_FOLDER_DIR}/../Except/Except.cpp
+    ${DEMO_FOLDER_DIR}/../Log/LogHandler.h ${DEMO_FOLDER_DIR}/../Log/LogHandler.cpp
+    ${DEMO_FOLDER_DIR}/../Log/LogDefaultHandler.h ${DEMO_FOLDER_DIR}/../Log/LogDefaultHandler.cpp
+
+    ${DEMO_FOLDER_DIR}/../Log/LogManager.h ${DEMO_FOLDER_DIR}/../Log/LogManager.cpp
+
+    ${DEMO_FOLDER_DIR}/../Log/LogMessage.h ${DEMO_FOLDER_DIR}/../Log/LogMessage.cpp
+
+    ${DEMO_FOLDER_DIR}/../Log/LogUtils.h ${DEMO_FOLDER_DIR}/../Log/LogUtils.cpp
 )
 
 MESSAGE( STATUS "Setting Done ")

@@ -44,12 +44,19 @@ SET( CMAKE_BUILD_TYPE Debug CACHE STRING "Build Type")
 
 MESSAGE( STATUS ${CMAKE_BUILD_TYPE} )
 
-LIST( APPEND FOLDER_DIR ${LOG_DIR} ${EXCEPT_DIR} )
+LIST( APPEND FOLDER_DIR ${LOG_DIR} )
 LIST( APPEND SOURCE_DIR 
     ${LOG_DIR}/Log.h ${LOG_DIR}/Log.cpp
-    ${LOG_DIR}/VarUtils.h ${LOG_DIR}/VarUtils.cpp
+    
+    ${LOG_DIR}/LogConstants.h
 
-    ${EXCEPT_DIR}/Except.h ${EXCEPT_DIR}/Except.cpp 
+    ${LOG_DIR}/LogHandler.h ${LOG_DIR}/LogHandler.cpp
+    ${LOG_DIR}/LogDefaultHandler.h ${LOG_DIR}/LogDefaultHandler.cpp
+    ${LOG_DIR}/LogManager.h ${LOG_DIR}/LogManager.cpp
+
+    ${LOG_DIR}/LogMessage.h ${LOG_DIR}/LogMessage.cpp
+
+    ${LOG_DIR}/LogUtils.h ${LOG_DIR}/LogUtils.cpp
 )
 
 IF ( WIN32 )
