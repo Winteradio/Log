@@ -2,35 +2,33 @@
 #define __LOG_H__
 
 #pragma warning( disable : 4996 )
-#include <vector>
-#include <string>
 
-#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
-
-#define LOGINFO(__MESSAGE__, ...)	Log::Set(Log::Type::eInfo, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
-#define LOGERROR(__MESSAGE__, ...)	Log::Set(Log::Type::eError, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
-#define LOGWARN(__MESSAGE__, ...)	Log::Set(Log::Type::eWarn, __FILENAME__, __LINE__, __MESSAGE__, __VA_ARGS__);
+#include "LogConstants.h"
+#include "LogMessage.h"
 
 namespace Log
 {
-	enum class Type : unsigned char
-	{
-		eUnknown = 0,
-		eInfo,
-		eError,
-		eWarn,
-		eVerbose
-	};
+	void Init(const unsigned short _nMaxCount, const uint8_t _eMode, const uint8_t _eLevel);
 
-	void Set(const Type _eType, const char* _pFileName, const unsigned int _nLine, const char* _pMessage, ...);
-	const std::vector<std::string> Get(const Type _eType = Type::eVerbose);
+	void SetCount(const unsigned short _nMaxCount);
+	void SetMode(const uint8_t _eMode);
+	void SetLevel(const uint8_t _eLevel);
 
-	namespace Handler
-	{
-		void Init(const unsigned short _nMaxCount);
-		void Print(const Type _eType = Type::eVerbose);
-		void Clear();
-	};
+	void Print(const uint8_t _eType);
+
+	std::weak_ptr<Handler> GetHandler(const Enum::eType _eType);
 };
+
+#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
+
+#define LOGDATA(__TYPE__)	Log::MetaData(__TYPE__, __FILENAME__, __FUNCTION__, __LINE__), Log::GetHandler(__TYPE__)
+
+#define LOG()			Log::Message(LOGDATA(Log::Enum::eType_None))
+#define LOGINFO()		Log::Message(LOGDATA(Log::Enum::eType_Info))
+#define LOGWARN()		Log::Message(LOGDATA(Log::Enum::eType_Warn))
+#define LOGERROR()		Log::Message(LOGDATA(Log::Enum::eType_Error))
+
+#define EXCEPT(__VALUE__)	std::move(__VALUE__)
+		
 
 #endif // __LOG_H__
