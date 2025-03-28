@@ -1,7 +1,3 @@
-#include <windows.h>
-#pragma comment(linker, "/entry:WinMainCRTStartup")
-#pragma comment(linker, "/subsystem:console")
-
 #include "Log.h"
 
 void Example_Level()
@@ -84,7 +80,7 @@ void Example_Throw()
 	throw EXCEPT(LOG() << "Something went wrong! : " << 999);
 }
 
-int CALLBACK WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
+int MAIN()
 {
 	// Invalid Situation - The log must be initialized;
 	LOG() << "Platform is Windows";

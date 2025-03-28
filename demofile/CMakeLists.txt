@@ -44,6 +44,7 @@ LIST( APPEND DEMO_SOURCE_LIST
 
     ${DEMO_FOLDER_DIR}/../Log/LogMessage.h ${DEMO_FOLDER_DIR}/../Log/LogMessage.cpp
 
+    ${DEMO_FOLDER_DIR}/../Log/LogPlatform.h
     ${DEMO_FOLDER_DIR}/../Log/LogUtils.h ${DEMO_FOLDER_DIR}/../Log/LogUtils.cpp
 )
 
@@ -62,6 +63,9 @@ IF ( WIN32 )
     SET( DYNAMIC_LIB dll )
 ELSE ()
     MESSAGE( STATUS "Other Platform for demofile")
+    ADD_EXECUTABLE( ${DEMO_NAME} ${DEMO_SOURCE_LIST})
+    SET( STATIC_LIB a )
+    SET( DYNAMIC_LIB so)
 ENDIF()
 
 MESSAGE(STATUS "Setting Done ")

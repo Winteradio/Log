@@ -20,7 +20,7 @@ MESSAGE( STATUS "Set Path" )
 
 ## Set Directories
 SET( MAIN_DIR ${CMAKE_SOURCE_DIR} )
-SET( DEMOFILE_DIR ${MAIN_DIR}/demofile )
+SET( DEMOFILE_DIR ${MAIN_DIR}/externaldemofile )
 
 SET( EXCEPT_DIR ${MAIN_DIR}/Except )
 SET( LOG_DIR ${MAIN_DIR}/Log )
@@ -34,7 +34,7 @@ MESSAGE( STATUS "Setting Done" )
 MESSAGE( STATUS "Set Option" )
 
 OPTION( BUILD_STATIC_LIBRARY "Set option for the library which is static or dynamic" OFF )
-OPTION( INSTALL_DEMO_FILE "Install demofile for Log" OFF )
+OPTION( INSTALL_DEMO_FILE "Install demofile for Log" ON )
 ## Set Option for install lib, header files' path
 SET( INCLUDE_DIR ${MAIN_DIR}/build/include CACHE PATH "Header files Path" )
 SET( ARC_DIR ${MAIN_DIR}/build/arc CACHE PATH "Archeive files Path")
@@ -56,6 +56,7 @@ LIST( APPEND SOURCE_DIR
 
     ${LOG_DIR}/LogMessage.h ${LOG_DIR}/LogMessage.cpp
 
+    ${LOG_DIR}/LogPlatform.h
     ${LOG_DIR}/LogUtils.h ${LOG_DIR}/LogUtils.cpp
 )
 
