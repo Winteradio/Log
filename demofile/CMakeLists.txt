@@ -44,6 +44,7 @@ LIST( APPEND DEMO_SOURCE_LIST
 
     ${DEMO_FOLDER_DIR}/../Log/LogMessage.h ${DEMO_FOLDER_DIR}/../Log/LogMessage.cpp
 
+    ${DEMO_FOLDER_DIR}/../Log/LogPlatform.h
     ${DEMO_FOLDER_DIR}/../Log/LogUtils.h ${DEMO_FOLDER_DIR}/../Log/LogUtils.cpp
 )
 

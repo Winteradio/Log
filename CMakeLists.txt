@@ -56,6 +56,7 @@ LIST( APPEND SOURCE_DIR
 
     ${LOG_DIR}/LogMessage.h ${LOG_DIR}/LogMessage.cpp
 
+    ${LOG_DIR}/LogPlatform.h
     ${LOG_DIR}/LogUtils.h ${LOG_DIR}/LogUtils.cpp
 )
 

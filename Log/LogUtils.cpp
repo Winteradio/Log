@@ -1,8 +1,7 @@
 #include "LogUtils.h"
 
 #include "LogConstants.h"
-
-#include <windows.h>
+#include "LogPlatform.h"
 
 namespace Log
 {
@@ -88,16 +87,18 @@ namespace Log
 
 		std::string GetTime()
 		{
+			std::string strTime;
+#ifdef PLATFORM_WINDOWS
 			SYSTEMTIME sysTime;
 			GetLocalTime(&sysTime);
-
-			std::string strTime;
 
 			strTime += Log::CheckNumofDigits(sysTime.wHour, 2) + ":";
 			strTime += Log::CheckNumofDigits(sysTime.wMinute, 2) + ":";
 			strTime += Log::CheckNumofDigits(sysTime.wSecond, 2) + ":";
 			strTime += Log::CheckNumofDigits(sysTime.wMilliseconds, 2);
-
+#elif PLATFORM_LINUX
+			
+#endif
 			return strTime;
 		}
 
