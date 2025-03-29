@@ -3,7 +3,8 @@
 
 #ifdef _WIN32
     #include <windows.h>
-        #pragma comment(linker, "/entry:WinMainCRTStartup") // Retain entry point
+        #pragma comment(linker, "/entry:WinMainCRTStartup")
+        #pragma comment(linker, "/subsystem:console")
 
     #define MAIN() CALLBACK WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
     #define PLATFORM_WINDOWS
