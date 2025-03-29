@@ -1,7 +1,6 @@
 #include "LogUtils.h"
 
 #include "LogConstants.h"
-#include "LogPlatform.h"
 
 namespace Log
 {

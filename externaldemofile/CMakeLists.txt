@@ -38,7 +38,7 @@ MESSAGE( STATUS "Add Executable by platform")
 ## Include Header Directories for Target Files
 IF ( WIN32 )
     MESSAGE( STATUS "Windows Platform for demofile")
-    ADD_EXECUTABLE( ${PROJECT_NAME} ${SRCS} ) # Removed WIN32
+    ADD_EXECUTABLE( ${PROJECT_NAME} WIN32 ${SRCS} )
     SET( STATIC_LIB lib )
     SET( DYNAMIC_LIB dll )
 ELSE ()
@@ -70,7 +70,7 @@ SET( DEMO_ARC_DIR ${DEMOFILE_DIR}/build/arc )
 
 SET( PROJECTLIST )
 
-SET( PROJECT LogProject )
+SET( PROJECT LogProject_Demo )
 
 LIST( APPEND PROJECTLIST PROJECT )
 
