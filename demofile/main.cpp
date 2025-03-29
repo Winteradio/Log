@@ -1,4 +1,5 @@
 #include "Log.h"
+#include "LogPlatform.h"
 
 void Example_Level()
 {

@@ -38,7 +38,7 @@ MESSAGE( STATUS "Add Executable by platform")
 ## Include Header Directories for Target Files
 IF ( WIN32 )
     MESSAGE( STATUS "Windows Platform for demofile")
-    ADD_EXECUTABLE( ${PROJECT_NAME} WIN32 ${SRCS} )
+    ADD_EXECUTABLE( ${PROJECT_NAME} ${SRCS} ) # Removed WIN32
     SET( STATIC_LIB lib )
     SET( DYNAMIC_LIB dll )
 ELSE ()
