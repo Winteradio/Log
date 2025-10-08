@@ -63,17 +63,16 @@ target_sources(${PROJECT_NAME} PUBLIC
 )
 
 target_sources(${PROJECT_NAME} PRIVATE 
-    ${LOG_DIR}/Log.h ${LOG_DIR}/Log.cpp
+    ${LOG_DIR}/Log.cpp
     
-    ${LOG_DIR}/LogConstants.h
+    ${LOG_DIR}/LogHandler.cpp
+    ${LOG_DIR}/LogDefaultHandler.cpp
+    
+    ${LOG_DIR}/LogManager.cpp
 
-    ${LOG_DIR}/LogHandler.h ${LOG_DIR}/LogHandler.cpp
-    ${LOG_DIR}/LogDefaultHandler.h ${LOG_DIR}/LogDefaultHandler.cpp
-    ${LOG_DIR}/LogManager.h ${LOG_DIR}/LogManager.cpp
+    ${LOG_DIR}/LogMessage.cpp
 
-    ${LOG_DIR}/LogMessage.h ${LOG_DIR}/LogMessage.cpp
-
-    ${LOG_DIR}/LogUtils.h ${LOG_DIR}/LogUtils.cpp
+    ${LOG_DIR}/LogUtils.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LOG_DIR})
