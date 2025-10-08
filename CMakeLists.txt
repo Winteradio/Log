@@ -59,6 +59,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         ${LOG_DIR}/Log.h
         ${LOG_DIR}/LogConstants.h
         ${LOG_DIR}/LogMessage.h
+        ${LOG_DIR}/LogPlatform.h
 )
 
 target_sources(${PROJECT_NAME} PRIVATE 
