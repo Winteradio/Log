@@ -52,14 +52,13 @@ else()
     message(STATUS "The library type is static")
 endif()
 
-set(PUBLIC_HEADER
-    ${LOG_DIR}/Log.h
-    ${LOG_DIR}/LogConstants.h
-    ${LOG_DIR}/LogMessage.h
-)
-
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    PUBLIC_HEADER ${PUBLIC_HEADER}
+target_sources(${PROJECT_NAME} PUBLIC
+    FILE_SET HEADERS
+    BASE_DIRS ${LOG_DIR}
+    FILES
+        ${LOG_DIR}/Log.h
+        ${LOG_DIR}/LogConstants.h
+        ${LOG_DIR}/LogMessage.h
 )
 
 target_sources(${PROJECT_NAME} PRIVATE 
@@ -82,7 +81,7 @@ install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION ${BIN_DIR}
     ARCHIVE DESTINATION ${LIB_DIR}
     LIBRARY DESTINATION ${LIB_DIR}
-    PUBLIC_HEADER DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME}
+    FILE_SET HEADERS DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME}
 )
 
 # ------ Create Demofile ------ #
