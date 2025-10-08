@@ -1,51 +1,74 @@
-# ------ Set Options for Projects --------------- #
-MESSAGE( STATUS "Set Options for Project" )
+# ------ Set the basic options for the project ------- #
+message(STATUS "# Set the basic options for the project")
 
-## CMake minimum version required
-CMAKE_MINIMUM_REQUIRED(VERSION 3.20)
-## Make Project Name
-SET( PROJECT_NAME "LogProject" )
-## Project name
-PROJECT(${PROJECT_NAME})
-## Set C++ Compiler Version : C++17
-SET( CMAKE_CXX_STANDARD 17 )
+cmake_minimum_required(VERSION 3.20)
+project(LogProject LANGUAGES CXX)
 
-MESSAGE( STATUS "Setting Done" )
-# ----------------------------------------------- #
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# ------ Set the compiler options for the project ------- #
+message(STATUS "# Set the language options for the project")
 
+message(STATUS "Compiler : ${CMAKE_CXX_COMPILER_ID}")
 
-# ------ Set Path ------------------------------ #
-MESSAGE( STATUS "Set Path" )
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    add_compile_options(/Zi /Mp)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-g -Wall -Wextra)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    add_compile_options(-g -Wall -Wextra)
+else()
+    message(FATAL_ERROR "The Compiler ${CMAKE_CXX_COMPILER_ID} is not supported")
+endif()
 
-## Set Directories
-SET( MAIN_DIR ${CMAKE_SOURCE_DIR} )
-SET( DEMOFILE_DIR ${MAIN_DIR}/externaldemofile )
+if (WIN32)
+    message(STATUS "Platform : Windows")
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
+endif()
 
-SET( EXCEPT_DIR ${MAIN_DIR}/Except )
-SET( LOG_DIR ${MAIN_DIR}/Log )
+# ------ Set the build options for the project ------- #
+option(BUILD_SHARED_LIBRARY "Build a shared library instead of a static one" OFF)
+option(BUILD_DEMO_FILE "Build the demo file" ON)
 
-MESSAGE( STATUS "Setting Done" )
-# ------------------------------------------------ #
+set(MAIN_DIR ${CMAKE_SOURCE_DIR})
+set(INCLUDE_DIR ${MAIN_DIR}/build/include CACHE PATH "Include files Path")
+set(LIB_DIR ${MAIN_DIR}/build/lib CACHE PATH "Library files Path")
+set(BIN_DIR ${MAIN_DIR}/build/bin CACHE PATH "Execute files Path")
+set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build Type")
 
+set(LOG_DIR ${MAIN_DIR}/Log)
+set(DEMOFILE_DIR ${MAIN_DIR}/demofile)
+set(EXTDEMOFILE_DIR ${MAIN_DIR}/externaldemofile)
 
+# ------ Create the library ------ #
+message(STATUS "# Create the library")
 
-# ------ Set Option ----------------------------- #
-MESSAGE( STATUS "Set Option" )
+if (BUILD_SHARED_LIBRARY)
+    add_library(${PROJECT_NAME} SHARED)
+    message(STATUS "The library type is shared")
+else()
+    add_library(${PROJECT_NAME} STATIC)
+    message(STATUS "The library type is static")
+endif()
 
-OPTION( BUILD_STATIC_LIBRARY "Set option for the library which is static or dynamic" OFF )
-OPTION( INSTALL_DEMO_FILE "Install demofile for Log" ON )
-## Set Option for install lib, header files' path
-SET( INCLUDE_DIR ${MAIN_DIR}/build/include CACHE PATH "Header files Path" )
-SET( ARC_DIR ${MAIN_DIR}/build/arc CACHE PATH "Archeive files Path")
-SET( LIB_DIR ${MAIN_DIR}/build/lib CACHE PATH "Library files Path" )
-SET( BIN_DIR ${MAIN_DIR}/build/bin CACHE PATH "Binary files Path ")
-SET( CMAKE_BUILD_TYPE Debug CACHE STRING "Build Type")
+set(PUBLIC_HEADER
+    ${LOG_DIR}/Log.h
+    ${LOG_DIR}/LogConstants.h
+    ${LOG_DIR}/LogMessage.h
+)
 
-MESSAGE( STATUS ${CMAKE_BUILD_TYPE} )
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${LIB_DIR}
+    CMAKE_LIBRARY_OUTPUT_DIRECTORY  ${LIB_DIR}
+    CMAKE_RUNTIME_OUTPUT_DIRECTORY  ${BIN_DIR}
+)
 
-LIST( APPEND FOLDER_DIR ${LOG_DIR} )
-LIST( APPEND SOURCE_DIR 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    HEADER_SETS ${PUBLIC_HEADER}
+)
+
+target_sources(${PROJECT_NAME} PRIVATE 
     ${LOG_DIR}/Log.h ${LOG_DIR}/Log.cpp
     
     ${LOG_DIR}/LogConstants.h
@@ -59,70 +82,18 @@ LIST( APPEND SOURCE_DIR
     ${LOG_DIR}/LogUtils.h ${LOG_DIR}/LogUtils.cpp
 )
 
-IF ( WIN32 )
-    MESSAGE( STATUS "Windows Platform for library")
-    SET( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1 )
+target_include_directories(${PROJECT_NAME} PUBLIC ${LOG_DIR})
+
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION ${BIN_DIR}
+    ARCHIVE DESTINATION ${LIB_DIR}
+    LIBRARY DESTINATION ${LIB_DIR}
+    HEADER_SETS DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME}
+)
+
+# ------ Create Demofile ------ #
+if (BUILD_DEMO_FILE)
+    message(STATUS "# Create the demofile project")
+    add_subdirectory(${DEMOFILE_DIR})
+    add_subdirectory(${EXTDEMOFILE_DIR})
 ENDIF()
-
-INCLUDE_DIRECTORIES( ${FOLDER_DIR} )
-
-MESSAGE( STATUS "Setting Done ")
-# ----------------------------------------------- #
-
-
-# ------ Create library ------------------------- #
-MESSAGE(STATUS "Create Library ")
-
-IF ( BUILD_STATIC_LIBRARY )
-    ADD_LIBRARY( ${PROJECT_NAME} STATIC ${SOURCE_DIR} )
-    MESSAGE( STATUS "Build library as a static" )
-ELSE ()
-    ADD_LIBRARY( ${PROJECT_NAME} SHARED ${SOURCE_DIR} )
-    MESSAGE( STATUS "Build library as a dynamic" )
-ENDIF()
-
-FOREACH( FOLDER ${FOLDER_DIR} )
-    FILE( COPY ${FOLDER}/ DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME}
-        FILES_MATCHING PATTERN "*.h" )
-ENDFOREACH()
-
-IF ( CMAKE_BUILD_TYPE MATCHES Debug )
-    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${ARC_DIR}
-        LIBRARY_OUTPUT_DIRECTORY_DEBUG ${LIB_DIR}
-        RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BIN_DIR}
-    )
-    MESSAGE( STATUS "Build library on Debug mode" )
-ELSEIF ( CMAKE_BUILD_TYPE MATCHES Release )
-    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${ARC_DIR}
-        LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIB_DIR}
-        RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BIN_DIR}
-    )
-    MESSAGE( STATUS "Build library on Release mode" )
-ELSE()
-    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY ${ARC_DIR}
-        LIBRARY_OUTPUT_DIRECTORY ${LIB_DIR}
-        RUNTIME_OUTPUT_DIRECTORY ${BIN_DIR}
-    )
-    MESSAGE( STATUS "Build library on Other mode" )
-ENDIF()
-
-MESSAGE( STATUS "Creating Done ")
-# ----------------------------------------------- #
-
-
-
-# ------ Create Demofile ------------------------ #
-MESSAGE( STATUS "Create Demofile")
-
-IF ( INSTALL_DEMO_FILE )
-    ADD_SUBDIRECTORY( ${DEMOFILE_DIR} )
-    MESSAGE( STATUS "Install Demofile that use Log" )
-ELSE()
-    MESSAGE( STATUS "Do not install Log's Demofile" )
-ENDIF()
-
-MESSAGE( STATUS "Create Done")
-# ----------------------------------------------- #
