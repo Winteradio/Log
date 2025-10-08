@@ -13,7 +13,7 @@ message(STATUS "# Set the language options for the project")
 message(STATUS "Compiler : ${CMAKE_CXX_COMPILER_ID}")
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    add_compile_options(/Zi /Mp)
+    add_compile_options(/Zi /MP)
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     add_compile_options(-g -Wall -Wextra)
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -56,12 +56,6 @@ set(PUBLIC_HEADER
     ${LOG_DIR}/Log.h
     ${LOG_DIR}/LogConstants.h
     ${LOG_DIR}/LogMessage.h
-)
-
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${LIB_DIR}
-    CMAKE_LIBRARY_OUTPUT_DIRECTORY  ${LIB_DIR}
-    CMAKE_RUNTIME_OUTPUT_DIRECTORY  ${BIN_DIR}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
