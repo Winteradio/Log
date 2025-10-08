@@ -35,11 +35,11 @@ set(EXT_LIBRARIES)
 set(EXT_LIST)
 
 EXTERNALPROJECT_ADD(
-	LogProject
+	LogProject_Add
 	GIT_REPOSITORY GIT_REPOSITORY https://github.com/Winteradio/Log.git
     GIT_TAG CMAKE_TEST
 
-	PREFIX ${CMAKE_BINARY_DIR}/Prefix/LogProject
+	PREFIX ${CMAKE_BINARY_DIR}/Prefix/LogProject_Add
 
 	UPDATE_COMMAND "" PATCH_COMMAND "" TEST_COMMAND "" INSTALL_COMMAND ""
 	CMAKE_ARGS 
@@ -51,7 +51,7 @@ EXTERNALPROJECT_ADD(
  		-DINSTALL_DEMO_FILE=OFF 
 )
 
-list(APPEND ${EXT_LIST} LogProject)
+list(APPEND ${EXT_LIST} LogProject_Add)
 list(APPEND ${EXT_LIBRARIES} ${EXT_LIB_DIR}/LogProject.${STATIC_LIBRARY})
 
 # ------ Set the properties the executable program ------ #
@@ -72,4 +72,4 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     ${CMAKE_BINARY_DIR}/${LIB_DIR}/LogProject.lib
 )
 
-add_dependencies(${PROJECT_NAME} LogProject)
+add_dependencies(${PROJECT_NAME} LogProject_Add)
