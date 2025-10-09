@@ -47,9 +47,13 @@ option(BUILD_DEMO_FILE "Build the demo file" ON)
 if (BUILD_DEMO_FILE)
     message(STATUS "# Create the demofile project")
 
-    set(DEMOFILE_DIR ${MAIN_DIR}/demofile)
-    set(EXTDEMOFILE_DIR ${MAIN_DIR}/externaldemofile)
-    
-    add_subdirectory(${DEMOFILE_DIR})
-    add_subdirectory(${EXTDEMOFILE_DIR})
+    if (BUILD_SHARED_LIBRARY)
+        set(EXTDEMOFILE_DIR ${MAIN_DIR}/externaldemofile)
+
+        add_subdirectory(${EXTDEMOFILE_DIR})
+    else()
+        set(DEMOFILE_DIR ${MAIN_DIR}/demofile)
+        
+        add_subdirectory(${DEMOFILE_DIR})
+    endif()
 endif()
