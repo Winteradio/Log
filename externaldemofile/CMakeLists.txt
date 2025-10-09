@@ -17,10 +17,11 @@ else()
 endif()
 
 # ------ Load the log project ------ #
-include(cmake/ExternalProject.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/ExternalProject.cmake)
 
 add_external_library(
-    PROJECT_NAME LogProject
+    PROJECT_NAME LogProject_Ext
+    LIBRARY_NAME LogProject
     GIT_REPOSITORY https://github.com/Winteradio/Log.git
     GIT_TAG CMAKE_TEST
 )

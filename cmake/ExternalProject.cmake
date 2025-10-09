@@ -26,13 +26,18 @@ set(EXT_LIST "")
 
 # ------ Add the external project ------- #
 function(add_external_library)
-	cmake_parse_arguments(ARG "" 
-		"PROJECT_NAME" "LIBRARY_NAME" "GIT_REPOSITORY" "GIT_TAG" 
-		"UPDATE_COMMAND" "PATCH_COMMAND" "TEST_COMMAND" 
-		"BUILD_SHARED_LIBRARY" "BUILD_DEMO_FILE" ${ARGN})
+	cmake_parse_arguments(
+		ARG # Options / Single Value / Multi Value
+		""	
+		"	PROJECT_NAME; LIBRARY_NAME;
+			GIT_REPOSITORY; GIT_TAG;
+			UPDATE_COMMAND; PATCH_COMMAND; TEST_COMMAND;
+			BUILD_SHARED_LIBRARY; BUILD_DEMO_FILE" 
+		""
+		${ARGN})
 
 	if (NOT ARG_PROJECT_NAME)
-		message(FATAL_ERROR "The external project must have a name")
+		message(FATAL_ERROR "Error : The external project must have a name")
 	endif()
 
 	if (NOT ARG_LIBRARY_NAME)
@@ -40,7 +45,7 @@ function(add_external_library)
 	endif()
 
 	if (NOT ARG_GIT_REPOSITORY)
-		message(FATAL_ERROR "The external project must have a git repository")
+		message(FATAL_ERROR "Error : The external project must have a git repository")
 	endif()
 
 	if (NOT ARG_GIT_TAG)
