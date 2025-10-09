@@ -5,15 +5,14 @@ project(LogProject LANGUAGES CXX)
 include(${CMAKE_SOURCE_DIR}/cmake/Project.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/Library.cmake)
 
+option(BUILD_SHARED_LIBRARY "Build a shared library instead of a static one" ON)
+
 project_options()
-create_library()
+create_library(BUILD_SHARED_LIBRARY ${BUILD_SHARED_LIBRARY})
 
 # ------ Set the build options for the project ------- #
 set(MAIN_DIR ${CMAKE_SOURCE_DIR})
-
 set(LOG_DIR ${MAIN_DIR}/Log)
-set(DEMOFILE_DIR ${MAIN_DIR}/demofile)
-set(EXTDEMOFILE_DIR ${MAIN_DIR}/externaldemofile)
 
 target_sources(${PROJECT_NAME} PUBLIC
     FILE_SET HEADERS
@@ -40,12 +39,17 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LOG_DIR})
 
-install_library(HEADER_FILES HEADERS)
+install_library(TARGET HEADER_FILES HEADERS)
+
 # ------ Create Demofile ------ #
-option(BUILD_DEMO_FILE "Build the demo file" ON)
+option(BUILD_DEMO_FILE "Build the demo file" OFF)
 
 if (BUILD_DEMO_FILE)
     message(STATUS "# Create the demofile project")
+
+    set(DEMOFILE_DIR ${MAIN_DIR}/demofile)
+    set(EXTDEMOFILE_DIR ${MAIN_DIR}/externaldemofile)
+    
     add_subdirectory(${DEMOFILE_DIR})
     add_subdirectory(${EXTDEMOFILE_DIR})
 endif()

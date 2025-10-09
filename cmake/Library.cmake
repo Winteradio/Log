@@ -1,7 +1,5 @@
 # ------ Set the variables for the library options ------- #
-message(STATUS "Set the options for the library")
-
-option(BUILD_SHARED_LIBRARY "Build a shared library instead of a static one" OFF)
+message(STATUS "# Set the options for the library")
 
 set(INCLUDE_DIR ${CMAKE_BINARY_DIR}/include CACHE PATH "Include files Path")
 set(LIB_DIR ${CMAKE_BINARY_DIR}/lib CACHE PATH "Library files Path")
@@ -9,12 +7,20 @@ set(BIN_DIR ${CMAKE_BINARY_DIR}/bin CACHE PATH "Execute files Path")
 
 # ------ Set the options for the library ------- #
 function(create_library)
-	message(STATUS "# Create the library")
-	message(STATUS "# The Library Type : ${BUILD_SHARED_LIBRARY}")
-	message(STATUS "# The Binary Directory : ${BIN_DIR}")
-	message(STATUS "# The Library Directory : ${LIB_DIR}")
+	cmake_parse_arguments(
+		ARG # Options / Single Value / Multi Value
+		"BUILD_SHARED_LIBRARY"	
+		""
+		""
+		${ARGN})
 
-	if (${BUILD_SHARED_LIBRARY})
+	message(STATUS "# Create the library")
+	message(STATUS "- The Library Type : ${BUILD_SHARED_LIBRARY}")
+	message(STATUS "- The Binary Directory : ${BIN_DIR}")
+	message(STATUS "- The Library Directory : ${LIB_DIR}")
+	message(STATUS "- The Include Directory : ${INCLUDE_DIR}")
+
+	if (${ARG_BUILD_SHARED_LIBRARY})
 		message(STATUS "# Create the shared library")
 
 	    add_library(${PROJECT_NAME} SHARED)
@@ -23,6 +29,7 @@ function(create_library)
 
 	    add_library(${PROJECT_NAME} STATIC)
 	endif()
+
 endfunction()
 
 # ------ Copy the public header files for the library ------- #
@@ -35,17 +42,30 @@ function(install_library)
 		${ARGN})
 
 	if (NOT ARG_HEADER_FILES)
-		message(FATAL_ERROR "Warning : No header files to copy")
+		message(WARNING "# Warning : No header files to copy")
+
+		set(ARG_HEADER_FILES "")
 	endif()
 
-	message(STATUS "# Install the library, the binary : ${BIN_DIR}, the library : ${LIB_DIR}, the include : ${INCLUDE_DIR}")
+	message(STATUS "# Install the library")
+	message(STATUS "- The binary Path : ${BIN_DIR}")
+	message(STATUS "- The library Path : ${LIB_DIR}")
+	message(STATUS "- The include Path : ${INCLUDE_DIR}")
+
+	target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIR})
+
+	set_target_properties(${PROJECT_NAME} PROPERTIES
+		ARCHIVE_OUTPUT_DIRECTORY ${LIB_DIR}
+		LIBRARY_OUTPUT_DIRECTORY ${LIB_DIR}
+		RUNTIME_OUTPUT_DIRECTORY ${BIN_DIR}
+	)
 
 	install(TARGETS ${PROJECT_NAME}
-	    RUNTIME DESTINATION ${BIN_DIR}
-	    ARCHIVE DESTINATION ${LIB_DIR}
-	    LIBRARY DESTINATION ${LIB_DIR}
-		FILE_SET ${ARG_HEADER_FILES} DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME}
-	)
+		RUNTIME DESTINATION BIN_DIR
+		ARCHIVE DESTINATION LIB_DIR
+		LIBRARY DESTINATION LIB_DIR
+		FILE_SET ${ARG_HEADER_FILES} DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME})
+		
 endfunction()
 
 

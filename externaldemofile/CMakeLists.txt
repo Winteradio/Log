@@ -4,8 +4,8 @@ message(STATUS "# Set the basic options for the external demo project")
 cmake_minimum_required(VERSION 3.20)
 project(ExtDemofile LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+include(${CMAKE_SOURCE_DIR}/cmake/Project.cmake)
+project_options()
 
 # ------ Create the executable program ------ #
 if (WIN32)

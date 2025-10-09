@@ -1,11 +1,11 @@
 # ------ Set the basic options for the project ------- #
-message(STATUS "Set the basic options for the project")
+message(STATUS "# Set the basic options for the project")
 
 function(project_options)
 	set(CMAKE_CXX_STANDARD 17)
 	set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-	message(STATUS "Compiler : ${CMAKE_CXX_COMPILER_ID}")
+	message(STATUS "- Compiler : ${CMAKE_CXX_COMPILER_ID}")
 
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 		add_compile_options(/Zi /MP)
@@ -18,7 +18,7 @@ function(project_options)
 	endif()
 
 	if (WIN32)
-		message(STATUS "Platform : Windows")
+		message(STATUS "- Platform : Windows")
 		set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 	endif()
 endfunction()
