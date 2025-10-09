@@ -23,6 +23,9 @@ set(EXT_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/include)
 set(EXT_LIB_DIR ${CMAKE_CURRENT_BINARY_DIR}/lib)
 set(EXT_BIN_DIR ${OUTPUT_DIR})
 set(EXT_LIST "")
+set(EXT_LIBRARIES "")
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${EXT_INCLUDE_DIR})
 
 # ------ Add the external project ------- #
 function(add_external_library)
@@ -91,8 +94,11 @@ function(add_external_library)
  			-DBUILD_DEMO_FILE=${ARG_BUILD_DEMO_FILE}
 	)
 
-	list(APPEND EXT_LIST ${ARG_PROJECT_NAME})
-	list(APPEND EXT_LIBRARIES ${EXT_LIB_DIR}/${ARG_LIBRARY_NAME}.${STATIC_LIBRARY})
+	message(STATUS "# Link the external library")
+	
+	target_link_libraries(${PROJECT_NAME} PUBLIC ${EXT_LIB_DIR}/${ARG_LIBRARY_NAME}.${STATIC_LIBRARY})
+	add_dependencies(${PROJECT_NAME} ${ARG_PROJECT_NAME})
+
 endfunction()
 
 # ------ Link the external project ------- #
@@ -101,7 +107,7 @@ function(link_external_project)
 
 	target_include_directories(${PROJECT_NAME} PUBLIC ${EXT_INCLUDE_DIR})
 	target_link_directories(${PROJECT_NAME} PUBLIC ${EXT_LIB_DIR})
-	target_link_libraries(${PROJECT_NAME} PUBLIC ${EXT_LIST})
+	target_link_libraries(${PROJECT_NAME} PUBLIC ${EXT_LIBRARIES})
 
-	add_dependencies(${PROJECT_NAME} LogProject_Add)
+	add_dependencies(${PROJECT_NAME} ${EXT_LIST})
 endfunction()

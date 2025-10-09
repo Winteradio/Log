@@ -12,15 +12,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if (WIN32)
     message(STATUS "Demo Platform : Windows")
     add_executable(${PROJECT_NAME} WIN32)
-ELSE ()
+else ()
     message(STATUS "Demo Platform : Others")
     add_executable(${PROJECT_NAME})
-ENDIF()
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+endif()
 
 set(MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-
 set(HEADER_LIST ${MAIN_DIR}/../Log)
 
 target_sources(${PROJECT_NAME} PRIVATE
