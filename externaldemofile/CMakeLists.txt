@@ -16,13 +16,15 @@ else()
     add_executable(${PROJECT_NAME})
 endif()
 
-# ------ Load the log project ------ #
+# ------ Load the external project ------ #
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/ExternalProject.cmake)
 
+# ------ Load the log project ------ #
 add_external_library(
     PROJECT_NAME LogProject_Ext
     LIBRARY_NAME LogProject
     GIT_REPOSITORY https://github.com/Winteradio/Log.git
+    GIT_TAG CMAKE_TEST
     BUILD_SHARED_LIBS ON
 )
 
