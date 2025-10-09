@@ -9,6 +9,8 @@ project_options()
 library_options()
 
 # ------ Set the build options for the project ------- #
+set(INCLUDE_DIR ${CMAKE_BINARY_DIR}/include CACHE PATH "Include files Path")
+
 set(MAIN_DIR ${CMAKE_SOURCE_DIR})
 
 set(LOG_DIR ${MAIN_DIR}/Log)
