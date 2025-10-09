@@ -10,7 +10,6 @@ if (WIN32)
     set(SHARED_LIBRARY dll)
 else()
     message(STATUS "Platform : Others")
-    add_executable(${PROJECT_NAME})
 
     set(STATIC_LIBRARY a)
     set(SHARED_LIBRARY so)

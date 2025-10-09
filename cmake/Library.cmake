@@ -16,7 +16,7 @@ function(create_library)
 
 	if (${BUILD_SHARED_LIBRARY})
 		message(STATUS "# Create the shared library")
-		
+
 	    add_library(${PROJECT_NAME} SHARED)
 	else()
 		message(STATUS "# Create the static library")
@@ -37,6 +37,8 @@ function(install_library)
 	if (NOT ARG_HEADER_FILES)
 		message(FATAL_ERROR "Warning : No header files to copy")
 	endif()
+
+	message(STATUS "# Install the library, the binary : ${BIN_DIR}, the library : ${LIB_DIR}, the include : ${INCLUDE_DIR}")
 
 	install(TARGETS ${PROJECT_NAME}
 	    RUNTIME DESTINATION ${BIN_DIR}
