@@ -9,7 +9,7 @@ set(BIN_DIR ${CMAKE_BINARY_DIR}/bin CACHE PATH "Execute files Path")
 function(create_library)
 	cmake_parse_arguments(
 		ARG # Options / Single Value / Multi Value
-		"BUILD_SHARED_LIBRARY"	
+		"SHARED_LIBRARY"	
 		""
 		""
 		${ARGN})

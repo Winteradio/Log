@@ -8,7 +8,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Library.cmake)
 option(BUILD_SHARED_LIBRARY "Build a shared library instead of a static one" ON)
 
 project_options()
-create_library(BUILD_SHARED_LIBRARY ${BUILD_SHARED_LIBRARY})
+create_library(SHARED_LIBRARY ${BUILD_SHARED_LIBRARY})
 
 # ------ Set the build options for the project ------- #
 set(MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR})
