@@ -40,7 +40,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LOG_DIR})
 
-copy_library_headers(HEADER_FILES HEADERS)
+install_library(HEADER_FILES HEADERS)
 # ------ Create Demofile ------ #
 option(BUILD_DEMO_FILE "Build the demo file" ON)
 

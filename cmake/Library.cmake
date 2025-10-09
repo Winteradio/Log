@@ -19,16 +19,10 @@ function(create_library)
 	else()
 	    add_library(${PROJECT_NAME} STATIC)
 	endif()
-
-	install(TARGETS ${PROJECT_NAME}
-	    RUNTIME DESTINATION ${BIN_DIR}
-	    ARCHIVE DESTINATION ${LIB_DIR}
-	    LIBRARY DESTINATION ${LIB_DIR}
-	)
 endfunction()
 
 # ------ Copy the public header files for the library ------- #
-function(copy_library_headers)
+function(install_library)
 	cmake_parse_arguments(
 		ARG # Options / Single Value / Multi Value
 		""	
@@ -37,10 +31,13 @@ function(copy_library_headers)
 		${ARGN})
 
 	if (NOT ARG_HEADER_FILES)
-		message(FATAL_ERROR "Error : No header files to copy")
+		message(FATAL_ERROR "Warning : No header files to copy")
 	endif()
 
 	install(TARGETS ${PROJECT_NAME}
+	    RUNTIME DESTINATION ${BIN_DIR}
+	    ARCHIVE DESTINATION ${LIB_DIR}
+	    LIBRARY DESTINATION ${LIB_DIR}
 		FILE_SET ${ARG_HEADER_FILES} DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME}
 	)
 endfunction()
