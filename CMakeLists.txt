@@ -42,7 +42,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${LOG_DIR})
 install_library(TARGET HEADER_FILES HEADERS)
 
 # ------ Create Demofile ------ #
-option(BUILD_DEMO_FILE "Build the demo file" OFF)
+option(BUILD_DEMO_FILE "Build the demo file" ON)
 
 if (BUILD_DEMO_FILE)
     message(STATUS "# Create the demofile project")
