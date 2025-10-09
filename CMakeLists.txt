@@ -40,6 +40,10 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LOG_DIR})
 
+install(TARGETS ${PROJECT_NAME}
+    FILE_SET HEADERS DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME}
+)
+
 # ------ Create Demofile ------ #
 option(BUILD_DEMO_FILE "Build the demo file" ON)
 

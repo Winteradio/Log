@@ -19,8 +19,8 @@ endif()
 set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build Type")
 set(OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 
-set(EXT_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/include)
-set(EXT_LIB_DIR ${CMAKE_CURRENT_BINARY_DIR}/lib)
+set(EXT_INCLUDE_DIR ${CMAKE_BINARY_DIR}/include)
+set(EXT_LIB_DIR ${CMAKE_BINARY_DIR}/lib)
 set(EXT_BIN_DIR ${OUTPUT_DIR})
 set(EXT_LIST "")
 set(EXT_LIBRARIES "")
@@ -65,15 +65,19 @@ function(add_external_library)
 	endif()
 
 	if (NOT ARG_BUILD_SHARED_LIBRARY)
-		set(ARG_BUILD_SHARED_LIBRARY "ON")
+		set(ARG_BUILD_SHARED_LIBRARY ON)
 	endif()
 
 	if (NOT ARG_BUILD_DEDMO_FILE)
-		set(ARG_BUILD_DEMO_FILE "OFF")
+		set(ARG_BUILD_DEMO_FILE OFF)
 	endif()
 
 	message(STATUS "# Download the external project : ${ARG_PROJECT_NAME}")
 	message(STATUS "# The repository : ${ARG_GIT_REPOSITORY} | the tag : ${ARG_GIT_TAG}")
+	message(STATUS "# The External Build Type : ${CMAKE_BUILD_TYPE}")
+	message(STATUS "# The External Include Directory : ${EXT_INCLUDE_DIR}")
+	message(STATUS "# The External Library Directory : ${EXT_LIB_DIR}")
+	message(STATUS "# The External Binary Directory : ${EXT_BIN_DIR}")
 
 	ExternalProject_Add(
 		${ARG_PROJECT_NAME}
