@@ -4,9 +4,6 @@ message(STATUS "# Set the basic options for the demo project")
 cmake_minimum_required(VERSION 3.20)
 project(Demofile LANGUAGES CXX)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Project.cmake)
-project_options()
-
 # ------ Create the executable program ------ #
 if (WIN32)
     message(STATUS "- Demo Platform : Windows")
@@ -15,6 +12,10 @@ else ()
     message(STATUS "- Demo Platform : Others")
     add_executable(${PROJECT_NAME})
 endif()
+
+# ------ Set the project options ------ #
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Project.cmake)
+project_options()
 
 set(MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(HEADER_LIST ${MAIN_DIR}/../Log)

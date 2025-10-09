@@ -1,15 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
 project(LogProject LANGUAGES CXX)
 
-# ------ Include the cmake modules ------- #
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Project.cmake)
-
-project_options()
-
 # ------ Create the library ------- #
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Library.cmake)
 
-option(BUILD_SHARED_LIBS "Build a shared library instead of a static one" ON)
+option(BUILD_SHARED_LIBS "Build a shared library instead of a static one" OFF)
 
 set(MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(LOG_DIR ${MAIN_DIR}/Log)
@@ -42,6 +37,11 @@ install_library(
     PUBLIC_HEADERS ${HEADER_LIST}
     PUBLIC_INCLUDE_DIRS ${LOG_DIR}
 )
+
+# ------ Set the project options ------ #
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Project.cmake)
+
+project_options()
 
 # ------ Create Demofile ------ #
 option(BUILD_DEMO_FILE "Build the demo file" ON)
