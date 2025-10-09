@@ -10,10 +10,10 @@ project_options()
 # ------ Create the executable program ------ #
 
 if (WIN32)
-    message(STATUS "Demo Platform : Windows")
+    message(STATUS "- Demo Platform : Windows")
     add_executable(${PROJECT_NAME} WIN32)
 else ()
-    message(STATUS "Demo Platform : Others")
+    message(STATUS "- Demo Platform : Others")
     add_executable(${PROJECT_NAME})
 endif()
 

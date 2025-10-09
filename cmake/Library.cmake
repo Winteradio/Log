@@ -9,29 +9,37 @@ set(BIN_DIR ${CMAKE_BINARY_DIR}/bin CACHE PATH "Execute files Path")
 function(create_library)
 	cmake_parse_arguments(
 		ARG # Options / Single Value / Multi Value
-		"SHARED_LIBRARY"	
-		""
-		""
+		""	
+		"SHARED_LIBRARY;TARGET_NAME;"
+		"PUBLIC_HEADERS;PRIVATE_SOURCES"
 		${ARGN})
 
-	message(STATUS "# Create the library")
-	message(STATUS "- The Library Type : ${BUILD_SHARED_LIBRARY}")
+	if (NOT DEFINED ARG_TARGET_NAME)
+		set(ARG_TARGET_NAME ${PROJECT_NAME})
+		message(WARNING "# Warning : The library will use the project name as the target name")
+	endif()
+
+	if (${ARG_SHARED_LIBRARY})
+		set(LIBRARY_TYPE SHARED)
+	else()
+		set(LIBRARY_TYPE STATIC)
+	endif()
+
+	message(STATUS "# Create the library : ${ARG_TARGET_NAME}")
+	message(STATUS "- The Library Type : ${LIBRARY_TYPE}")
 	message(STATUS "- The Binary Directory : ${BIN_DIR}")
 	message(STATUS "- The Library Directory : ${LIB_DIR}")
 	message(STATUS "- The Include Directory : ${INCLUDE_DIR}")
 
-	if (${ARG_BUILD_SHARED_LIBRARY})
-		message(STATUS "# Create the shared library")
+	add_library(${ARG_TARGET_NAME} ${LIBRARY_TYPE})
 
-		add_library(${PROJECT_NAME} SHARED)
+	target_sources(${ARG_TARGET_NAME}
+		PUBLIC		${ARG_PUBLIC_HEADERS}
+		PRIVATE		${ARG_PRIVATE_SOURCES}
+	)
 
-		if (WIN32)
-			set_target_properties(${PROJECT_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
-		endif()
-	else()
-		message(STATUS "# Create the static library")
-
-	    add_library(${PROJECT_NAME} STATIC)
+	if (WIN32 AND ${ARG_SHARED_LIBRARY})
+		set_target_properties(${ARG_TARGET_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 	endif()
 
 endfunction()
@@ -41,14 +49,18 @@ function(install_library)
 	cmake_parse_arguments(
 		ARG # Options / Single Value / Multi Value
 		""	
-		""
-		"HEADER_FILES"
+		"TARGET_NAME;"
+		"PUBLIC_HEADERS;PUBLIC_INCLUDE_DIRS"
 		${ARGN})
 
-	if (NOT ARG_HEADER_FILES)
-		message(WARNING "# Warning : No header files to copy")
+	if (NOT DEFINED ARG_TARGET_NAME)
+		set(ARG_TARGET_NAME ${PROJECT_NAME})
+		message(WARNING "# Warning : The library will use the project name as the target name")
+	endif()
 
-		set(ARG_HEADER_FILES "")
+	if (NOT DEFINED ARG_PUBLIC_INCLUDE_DIRS)
+		message(WARNING "# Warning : The include directories list is empty")
+		set(ARG_PUBLIC_INCLUDE_DIRS "")
 	endif()
 
 	message(STATUS "# Install the library")
@@ -56,13 +68,17 @@ function(install_library)
 	message(STATUS "- The library Path : ${LIB_DIR}")
 	message(STATUS "- The include Path : ${INCLUDE_DIR}")
 
-	target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIR})
+	message(${ARG_PUBLIC_INCLUDE_DIRS})
 
-	install(TARGETS ${PROJECT_NAME}
+	target_include_directories(${ARG_TARGET_NAME} PUBLIC ${ARG_PUBLIC_INCLUDE_DIRS} ${INCLUDE_DIR})
+
+	install(TARGETS ${ARG_TARGET_NAME}
 		RUNTIME DESTINATION ${BIN_DIR}
 		ARCHIVE DESTINATION ${LIB_DIR}
 		LIBRARY DESTINATION ${LIB_DIR}
-		FILE_SET ${ARG_HEADER_FILES} DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME})
+	)
+
+	install(FILES ${ARG_PUBLIC_HEADERS} DESTINATION ${INCLUDE_DIR}/${ARG_TARGET_NAME})
 
 endfunction()
 
