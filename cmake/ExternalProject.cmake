@@ -4,12 +4,12 @@ message(STATUS "# Set the options for the external project")
 include(ExternalProject)
 
 if (WIN32)
-    message(STATUS "Platform : Windows")
+    message(STATUS "- Platform : Windows")
 
     set(STATIC_LIBRARY lib)
     set(SHARED_LIBRARY dll)
 else()
-    message(STATUS "Platform : Others")
+    message(STATUS "- Platform : Others")
 
     set(STATIC_LIBRARY a)
     set(SHARED_LIBRARY so)
@@ -36,7 +36,7 @@ function(add_external_library)
 		${ARGN})
 
 	if (NOT ARG_PROJECT_NAME)
-		message(FATAL_ERROR "Error : The external project must have a name")
+		message(FATAL_ERROR "# Error : The external project must have a name")
 	endif()
 
 	if (NOT ARG_LIBRARY_NAME)
@@ -44,7 +44,7 @@ function(add_external_library)
 	endif()
 
 	if (NOT ARG_GIT_REPOSITORY)
-		message(FATAL_ERROR "Error : The external project must have a git repository")
+		message(FATAL_ERROR "# Error : The external project must have a git repository")
 	endif()
 
 	if (NOT ARG_GIT_TAG)
@@ -72,11 +72,11 @@ function(add_external_library)
 	endif()
 
 	message(STATUS "# Download the external project : ${ARG_PROJECT_NAME}")
-	message(STATUS "# The repository : ${ARG_GIT_REPOSITORY} | the tag : ${ARG_GIT_TAG}")
-	message(STATUS "# The External Build Type : ${CMAKE_BUILD_TYPE}")
-	message(STATUS "# The External Include Directory : ${EXT_INCLUDE_DIR}")
-	message(STATUS "# The External Library Directory : ${EXT_LIB_DIR}")
-	message(STATUS "# The External Binary Directory : ${EXT_BIN_DIR}")
+	message(STATUS "- The repository : ${ARG_GIT_REPOSITORY} | the tag : ${ARG_GIT_TAG}")
+	message(STATUS "- The External Build Type : ${CMAKE_BUILD_TYPE}")
+	message(STATUS "- The External Include Directory : ${EXT_INCLUDE_DIR}")
+	message(STATUS "- The External Library Directory : ${EXT_LIB_DIR}")
+	message(STATUS "- The External Binary Directory : ${EXT_BIN_DIR}")
 
 	ExternalProject_Add(
 		${ARG_PROJECT_NAME}
