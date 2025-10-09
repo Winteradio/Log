@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 project(LogProject LANGUAGES CXX)
 
 # ------ Include the cmake modules ------- #
-include(cmake/Project.cmake)
-include(cmake/Library.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/Project.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/Library.cmake)
 
 project_options()
 create_library()
