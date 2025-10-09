@@ -95,19 +95,8 @@ function(add_external_library)
 	)
 
 	message(STATUS "# Link the external library")
-	
+
 	target_link_libraries(${PROJECT_NAME} PUBLIC ${EXT_LIB_DIR}/${ARG_LIBRARY_NAME}.${STATIC_LIBRARY})
 	add_dependencies(${PROJECT_NAME} ${ARG_PROJECT_NAME})
 
-endfunction()
-
-# ------ Link the external project ------- #
-function(link_external_project)
-	message(STATUS "# Link the external project : ${EXT_LIST}")
-
-	target_include_directories(${PROJECT_NAME} PUBLIC ${EXT_INCLUDE_DIR})
-	target_link_directories(${PROJECT_NAME} PUBLIC ${EXT_LIB_DIR})
-	target_link_libraries(${PROJECT_NAME} PUBLIC ${EXT_LIBRARIES})
-
-	add_dependencies(${PROJECT_NAME} ${EXT_LIST})
 endfunction()

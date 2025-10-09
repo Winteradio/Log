@@ -26,8 +26,6 @@ add_external_library(
     GIT_TAG CMAKE_TEST
 )
 
-link_external_project()
-
 # ------ Set the properties the executable program ------ #
 target_sources(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp

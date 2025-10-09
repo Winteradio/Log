@@ -3,9 +3,9 @@ message(STATUS "Set the options for the library")
 
 option(BUILD_SHARED_LIBRARY "Build a shared library instead of a static one" OFF)
 
-set(INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/include CACHE PATH "Include files Path")
-set(LIB_DIR ${CMAKE_CURRENT_BINARY_DIR}/lib CACHE PATH "Library files Path")
-set(BIN_DIR ${CMAKE_CURRENT_BINARY_DIR}/bin CACHE PATH "Execute files Path")
+set(INCLUDE_DIR ${CMAKE_BINARY_DIR}/include CACHE PATH "Include files Path")
+set(LIB_DIR ${CMAKE_BINARY_DIR}/lib CACHE PATH "Library files Path")
+set(BIN_DIR ${CMAKE_BINARY_DIR}/bin CACHE PATH "Execute files Path")
 
 # ------ Set the options for the library ------- #
 function(library_options)
