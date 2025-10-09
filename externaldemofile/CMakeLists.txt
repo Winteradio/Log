@@ -23,7 +23,6 @@ add_external_library(
     PROJECT_NAME LogProject_Ext
     LIBRARY_NAME LogProject
     GIT_REPOSITORY https://github.com/Winteradio/Log.git
-    GIT_TAG CMAKE_TEST
     BUILD_SHARED_LIBRARY OFF
 )
 
