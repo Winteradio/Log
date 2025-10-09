@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 project(LogProject LANGUAGES CXX)
 
 # ------ Include the cmake modules ------- #
-include(${CMAKE_SOURCE_DIR}/cmake/Project.cmake)
-include(${CMAKE_SOURCE_DIR}/cmake/Library.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Project.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Library.cmake)
 
 option(BUILD_SHARED_LIBRARY "Build a shared library instead of a static one" ON)
 
@@ -11,7 +11,7 @@ project_options()
 create_library(BUILD_SHARED_LIBRARY ${BUILD_SHARED_LIBRARY})
 
 # ------ Set the build options for the project ------- #
-set(MAIN_DIR ${CMAKE_SOURCE_DIR})
+set(MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(LOG_DIR ${MAIN_DIR}/Log)
 
 target_sources(${PROJECT_NAME} PUBLIC

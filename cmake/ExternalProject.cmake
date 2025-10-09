@@ -35,39 +35,39 @@ function(add_external_library)
 		""
 		${ARGN})
 
-	if (NOT ARG_PROJECT_NAME)
+	if (NOT DEFINED ARG_PROJECT_NAME)
 		message(FATAL_ERROR "# Error : The external project must have a name")
 	endif()
 
-	if (NOT ARG_LIBRARY_NAME)
+	if (NOT DEFINED ARG_LIBRARY_NAME)
 		set(ARG_LIBRARY_NAME ${ARG_PROJECT_NAME})
 	endif()
 
-	if (NOT ARG_GIT_REPOSITORY)
+	if (NOT DEFINED ARG_GIT_REPOSITORY)
 		message(FATAL_ERROR "# Error : The external project must have a git repository")
 	endif()
 
-	if (NOT ARG_GIT_TAG)
+	if (NOT DEFINED ARG_GIT_TAG)
 		set(ARG_GIT_TAG "")
 	endif()
 
-	if (NOT ARG_UPDATE_COMMAND)
+	if (NOT DEFINED ARG_UPDATE_COMMAND)
 		set(ARG_UPDATE_COMMAND "")
 	endif()
 
-	if (NOT ARG_PATCH_COMMAND)
+	if (NOT DEFINED ARG_PATCH_COMMAND)
 		set(ARG_PATCH_COMMAND "")
 	endif()
 
-	if (NOT ARG_TEST_COMMAND)
+	if (NOT DEFINED ARG_TEST_COMMAND)
 		set(ARG_TEST_COMMAND "")
 	endif()
 
-	if (NOT ARG_BUILD_SHARED_LIBRARY)
+	if (NOT DEFINED ARG_BUILD_SHARED_LIBRARY)
 		set(ARG_BUILD_SHARED_LIBRARY ON)
 	endif()
 
-	if (NOT ARG_BUILD_DEDMO_FILE)
+	if (NOT DEFINED ARG_BUILD_DEDMO_FILE)
 		set(ARG_BUILD_DEMO_FILE OFF)
 	endif()
 
@@ -77,6 +77,7 @@ function(add_external_library)
 	message(STATUS "- The External Include Directory : ${EXT_INCLUDE_DIR}")
 	message(STATUS "- The External Library Directory : ${EXT_LIB_DIR}")
 	message(STATUS "- The External Binary Directory : ${EXT_BIN_DIR}")
+	message(STATUS "- The External Library Type : ${ARG_BUILD_SHARED_LIBRARY}")
 
 	ExternalProject_Add(
 		${ARG_PROJECT_NAME}

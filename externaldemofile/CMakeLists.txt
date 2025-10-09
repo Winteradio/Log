@@ -4,7 +4,7 @@ message(STATUS "# Set the basic options for the external demo project")
 cmake_minimum_required(VERSION 3.20)
 project(ExtDemofile LANGUAGES CXX)
 
-include(${CMAKE_SOURCE_DIR}/cmake/Project.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Project.cmake)
 project_options()
 
 # ------ Create the executable program ------ #
@@ -17,13 +17,14 @@ else()
 endif()
 
 # ------ Load the log project ------ #
-include(${CMAKE_SOURCE_DIR}/cmake/ExternalProject.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/ExternalProject.cmake)
 
 add_external_library(
     PROJECT_NAME LogProject_Ext
     LIBRARY_NAME LogProject
     GIT_REPOSITORY https://github.com/Winteradio/Log.git
     GIT_TAG CMAKE_TEST
+    BUILD_SHARED_LIBRARY OFF
 )
 
 # ------ Set the properties the executable program ------ #
