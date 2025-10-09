@@ -6,11 +6,11 @@ include(cmake/Project.cmake)
 include(cmake/Library.cmake)
 
 project_options()
-library_options()
+
+create_library()
+copy_library_headers()
 
 # ------ Set the build options for the project ------- #
-set(INCLUDE_DIR ${CMAKE_BINARY_DIR}/include CACHE PATH "Include files Path")
-
 set(MAIN_DIR ${CMAKE_SOURCE_DIR})
 
 set(LOG_DIR ${MAIN_DIR}/Log)
@@ -41,10 +41,6 @@ target_sources(${PROJECT_NAME} PRIVATE
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LOG_DIR})
-
-install(TARGETS ${PROJECT_NAME}
-    FILE_SET HEADERS DESTINATION ${INCLUDE_DIR}/${PROJECT_NAME}
-)
 
 # ------ Create Demofile ------ #
 option(BUILD_DEMO_FILE "Build the demo file" ON)
