@@ -37,7 +37,7 @@ function(copy_library_headers)
 		${ARGN})
 
 	if (NOT ARG_HEADER_FILES)
-		message(STATUS "Warning : No header files to copy")
+		message(FATAL_ERROR "Error : No header files to copy")
 	endif()
 
 	install(TARGETS ${PROJECT_NAME}
