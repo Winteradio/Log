@@ -23,7 +23,11 @@ function(create_library)
 	if (${ARG_BUILD_SHARED_LIBRARY})
 		message(STATUS "# Create the shared library")
 
-	    add_library(${PROJECT_NAME} SHARED)
+		add_library(${PROJECT_NAME} SHARED)
+
+		if (WIN32)
+			set_target_properties(${PROJECT_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)			
+		endif()
 	else()
 		message(STATUS "# Create the static library")
 
