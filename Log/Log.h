@@ -1,7 +1,12 @@
 #ifndef __LOG_H__
 #define __LOG_H__
 
-#pragma warning( disable : 4996 )
+#ifdef _WIN32
+	#pragma warning( disable : 4996 )
+	#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
+#else
+	#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#endif
 
 #include "LogConstants.h"
 #include "LogMessage.h"
@@ -20,8 +25,6 @@ namespace Log
 
 	std::weak_ptr<Handler> GetHandler(const Enum::eType _eType);
 };
-
-#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 
 #define LOGDATA(__TYPE__)	Log::MetaData(__TYPE__, __FILENAME__, __FUNCTION__, __LINE__), Log::GetHandler(__TYPE__)
 

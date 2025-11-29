@@ -181,10 +181,8 @@ namespace Log
 		return *this;
 	}
 
-	const std::string Message::Get()
+	const std::string& Message::Get() const
 	{
-		std::string strMessage = std::move(m_strMessage);
-
-		return strMessage;
+		return m_strMessage;
 	}
 };

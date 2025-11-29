@@ -98,7 +98,7 @@ int MAIN()
 		Example_Time();
 		Example_Throw();
 	}
-	catch (Log::Message&& e)
+	catch (const Log::Message& e)
 	{
 		LOG() << e.Get();
 		Log::Print(Log::Enum::eType_None | Log::Enum::eType_Info);
