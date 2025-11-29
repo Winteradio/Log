@@ -45,7 +45,7 @@ namespace Log
 			Message& operator<<(const char* _pChar);
 
 		public :
-			const std::string Get();
+			const std::string& Get() const;
 
 		private :
 			MetaData m_tMetaData;
