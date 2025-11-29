@@ -26,12 +26,21 @@ set(EXT_LIBRARIES "")
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${EXT_INCLUDE_DIR})
 
+# ------ Find the library name ---------- #
+function(get_library_name RESULT LIBRARY_NAME)
+    if (WIN32)
+		set(${RESULT} ${LIBRARY_NAME} PARENT_SCOPE)
+    else()
+		set(${RESULT} "lib${LIBRARY_NAME}" PARENT_SCOPE)
+    endif()
+endfunction()
+
 # ------ Find the library extension ----- #
 function(get_library_extension RESULT BUILD_SHARED)
     if (WIN32)
         set(${RESULT} "lib" PARENT_SCOPE)
     else()
-        if (BUILD_SHARED)
+        if (${BUILD_SHARED})
             set(${RESULT} "so" PARENT_SCOPE)
         else()
             set(${RESULT} "a" PARENT_SCOPE)
@@ -112,10 +121,11 @@ function(add_external_library)
 	)
 
 	get_library_extension(LIB_EXT ${ARG_BUILD_SHARED_LIBS})
+	get_library_name(LIBRARY_NAME ${ARG_LIBRARY_NAME})
 
 	message(STATUS "# Link the external library")
 
-	target_link_libraries(${PROJECT_NAME} PUBLIC ${EXT_LIB_DIR}/${ARG_LIBRARY_NAME}.${LIB_EXT})
+	target_link_libraries(${PROJECT_NAME} PUBLIC ${EXT_LIB_DIR}/${LIBRARY_NAME}.${LIB_EXT})
 	add_dependencies(${PROJECT_NAME} ${ARG_PROJECT_NAME})
 
 endfunction()

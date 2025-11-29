@@ -5,6 +5,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include <cstdint>
 
 namespace Log
 {
@@ -52,7 +53,7 @@ namespace Log
 			pointerValue += " ";
 
 			std::stringstream pointerStream;
-            pointerStream << "0x" << std::hex << std::uppercase << _pVoid;
+			pointerStream << "0x" << std::hex << std::uppercase << reinterpret_cast<uintptr_t>(_pVoid);
 
 			pointerValue += pointerStream.str();
 

@@ -2,7 +2,7 @@
 message(STATUS "# Set the basic options for the demo project")
 
 cmake_minimum_required(VERSION 3.20)
-project(Demofile LANGUAGES CXX)
+project(Demo LANGUAGES CXX)
 
 # ------ Create the executable program ------ #
 if (WIN32)
