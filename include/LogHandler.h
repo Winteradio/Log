@@ -18,8 +18,8 @@ namespace Log
 		public :
 			virtual void Send(const Entry& _rEntry) = 0;
 			void Init(const uint8_t _eMode, const uint8_t _eLevel);
-			const uint8_t GetMode();
-			const uint8_t GetLevel();
+			uint8_t GetMode();
+			uint8_t GetLevel();
 
 		protected :
 			uint8_t m_eMode;

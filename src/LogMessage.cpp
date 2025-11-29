@@ -11,20 +11,19 @@ namespace Log
 	Message::Message()
 		: m_tMetaData()
 		, m_strMessage()
+		, m_wpHandler()
 	{}
 
 	Message::Message(const Message& _rhs)
 		: m_tMetaData(_rhs.m_tMetaData)
-		, m_wpHandler(_rhs.m_wpHandler)
 		, m_strMessage(_rhs.m_strMessage)
-	{
-		m_strMessage = _rhs.m_strMessage;
-	}
+		, m_wpHandler(_rhs.m_wpHandler)
+	{}
 
 	Message::Message(const MetaData& _MetaData, std::weak_ptr<Handler> _wpHandler)
 		: m_tMetaData(_MetaData)
-		, m_wpHandler(_wpHandler)
 		, m_strMessage()
+		, m_wpHandler(_wpHandler)
 	{}
 
 	Message::Message(Message&& _rhs) noexcept

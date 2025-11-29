@@ -65,6 +65,32 @@ namespace Log
 			, strFuncName(_rhs.strFuncName)
 			, strLine(_rhs.strLine)
 		{}
+
+		MetaData& operator=(const MetaData& _rhs)
+		{
+			if (this != &_rhs)
+			{
+				this->eType = _rhs.eType;
+				this->strFileName = _rhs.strFileName;
+				this->strFuncName = _rhs.strFuncName;
+				this->strLine = _rhs.strLine;
+			}
+
+			return *this;
+		}
+
+		MetaData& operator=(MetaData&& _rhs)
+		{
+			if (this != &_rhs)
+			{
+				this->eType = std::move(_rhs.eType);
+				this->strFileName = std::move(_rhs.strFileName);
+				this->strFuncName = std::move(_rhs.strFuncName);
+				this->strLine = std::move(_rhs.strLine);
+			}
+
+			return *this;
+		}
 	};
 
 	struct Entry

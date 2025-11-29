@@ -56,7 +56,7 @@ namespace Log
 		}
 	}
 
-	std::weak_ptr<Handler> GetHandler(const Enum::eType _eType)
+	std::weak_ptr<Handler> GetHandler()
 	{
 		return spDefaultHandler;
 	}
