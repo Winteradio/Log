@@ -23,10 +23,10 @@ namespace Log
 
 	void Print(const uint8_t _eType);
 
-	std::weak_ptr<Handler> GetHandler(const Enum::eType _eType);
+	std::weak_ptr<Handler> GetHandler();
 };
 
-#define LOGDATA(__TYPE__)	Log::MetaData(__TYPE__, __FILENAME__, __FUNCTION__, __LINE__), Log::GetHandler(__TYPE__)
+#define LOGDATA(__TYPE__)	Log::MetaData(__TYPE__, __FILENAME__, __FUNCTION__, __LINE__), Log::GetHandler()
 
 #define LOG()			Log::Message(LOGDATA(Log::Enum::eType_None))
 #define LOGINFO()		Log::Message(LOGDATA(Log::Enum::eType_Info))

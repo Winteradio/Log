@@ -9,11 +9,11 @@
 
 namespace Log
 {
-	std::string CheckNumofDigits(int value, int numDigits)
+	std::string CheckNumofDigits(const int value, const int numDigits)
     {
         std::string numString = std::to_string(value);
 
-        while(numString.length() < numDigits)
+        while(numString.length() < static_cast<size_t>(numDigits))
         {
             numString = "0" + numString;
         }

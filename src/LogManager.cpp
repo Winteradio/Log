@@ -7,9 +7,9 @@
 namespace Log
 {
 	Manager::Manager()
-		: m_nMaxCount(1024)
-		, m_LogMessage()
+		: m_LogMessage() 
 		, m_TypeIndex()
+		, m_nMaxCount(1024)
 	{}
 
 	Manager::~Manager()

@@ -2,27 +2,36 @@ cmake_minimum_required(VERSION 3.20)
 project(LogProject LANGUAGES CXX)
 
 # ------ Create the library ------- #
-include(${CMAKE_CURRENT_SOURCE_DIR}/external/CMake/Library.cmake)
+include(${CMAKE_SOURCE_DIR}/external/CMake/Library.cmake)
 
 option(BUILD_SHARED_LIBS "Build a shared library instead of a static one" ON)
 
 set(MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(LOG_DIR ${MAIN_DIR}/Log)
+set(HEADER_DIR ${MAIN_DIR}/include)
+set(SOURCE_DIR ${MAIN_DIR}/src)
+
+set(INCLUDE_DIR_LIST
+    ${MAIN_DIR}/include
+)
 
 set(HEADER_LIST
-    ${LOG_DIR}/Log.h
-    ${LOG_DIR}/LogConstants.h
-    ${LOG_DIR}/LogMessage.h
-    ${LOG_DIR}/LogPlatform.h
+    ${HEADER_DIR}/Log.h
+    ${HEADER_DIR}/LogConstants.h
+    ${HEADER_DIR}/LogDefaultHandler.h
+    ${HEADER_DIR}/LogHandler.h
+    ${HEADER_DIR}/LogMessage.h
+    ${HEADER_DIR}/LogManager.h
+    ${HEADER_DIR}/LogPlatform.h
+    ${HEADER_DIR}/LogUtils.h
 )
 
 set(SOURCE_LIST
-    ${LOG_DIR}/Log.cpp
-    ${LOG_DIR}/LogHandler.cpp
-    ${LOG_DIR}/LogDefaultHandler.cpp
-    ${LOG_DIR}/LogManager.cpp
-    ${LOG_DIR}/LogMessage.cpp
-    ${LOG_DIR}/LogUtils.cpp
+    ${SOURCE_DIR}/Log.cpp
+    ${SOURCE_DIR}/LogHandler.cpp
+    ${SOURCE_DIR}/LogDefaultHandler.cpp
+    ${SOURCE_DIR}/LogManager.cpp
+    ${SOURCE_DIR}/LogMessage.cpp
+    ${SOURCE_DIR}/LogUtils.cpp
 )
 
 create_library(
@@ -35,11 +44,11 @@ create_library(
 install_library(
     TARGET_NAME ${PROJECT_NAME}
     PUBLIC_HEADERS ${HEADER_LIST}
-    PUBLIC_INCLUDE_DIRS ${LOG_DIR}
+    PUBLIC_INCLUDE_DIRS ${INCLUDE_DIR_LIST}
 )
 
 # ------ Set the project options ------ #
-include(${CMAKE_CURRENT_SOURCE_DIR}/external/CMake/Project.cmake)
+include(${CMAKE_SOURCE_DIR}/external/CMake/Project.cmake)
 
 project_options()
 

@@ -19,12 +19,12 @@ namespace Log
 		m_eLevel = _eLevel;
 	}
 
-	const uint8_t Handler::GetMode()
+	uint8_t Handler::GetMode()
 	{
 		return m_eMode;
 	}
 
-	const uint8_t Handler::GetLevel()
+	uint8_t Handler::GetLevel()
 	{
 		return m_eLevel;
 	}
