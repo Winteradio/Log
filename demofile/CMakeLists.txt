@@ -14,7 +14,7 @@ else ()
 endif()
 
 # ------ Set the project options ------ #
-include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Project.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../external/CMake/Project.cmake)
 project_options()
 
 set(MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR})
