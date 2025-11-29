@@ -30,9 +30,9 @@ namespace Log
 			void Clear();
 
 		private :
-			unsigned short m_nMaxCount;
 			MessageList m_LogMessage;
 			TypeIndexList m_TypeIndex;
+			unsigned short m_nMaxCount;
 	};
 };
 

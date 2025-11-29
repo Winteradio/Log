@@ -2,6 +2,10 @@
 
 #include "LogConstants.h"
 
+#include <chrono>
+#include <iomanip>
+#include <sstream>
+
 namespace Log
 {
 	std::string CheckNumofDigits(int value, int numDigits)
@@ -46,9 +50,11 @@ namespace Log
 
 			pointerValue = "[P]";
 			pointerValue += " ";
-			pointerValue += std::to_string(
-				reinterpret_cast<std::uintptr_t>(_pVoid)
-			);
+
+			std::stringstream pointerStream;
+            pointerStream << "0x" << std::hex << std::uppercase << _pVoid;
+
+			pointerValue += pointerStream.str();
 
 			return pointerValue;
 		}
@@ -86,19 +92,12 @@ namespace Log
 
 		std::string GetTime()
 		{
-			std::string strTime;
-#ifdef PLATFORM_WINDOWS
-			SYSTEMTIME sysTime;
-			GetLocalTime(&sysTime);
-
-			strTime += Log::CheckNumofDigits(sysTime.wHour, 2) + ":";
-			strTime += Log::CheckNumofDigits(sysTime.wMinute, 2) + ":";
-			strTime += Log::CheckNumofDigits(sysTime.wSecond, 2) + ":";
-			strTime += Log::CheckNumofDigits(sysTime.wMilliseconds, 2);
-#elif PLATFORM_LINUX
-			
-#endif
-			return strTime;
+			auto now = std::chrono::system_clock::now();
+			auto time = std::chrono::system_clock::to_time_t(now);
+				
+			std::stringstream timeStream;
+			timeStream << std::put_time(std::localtime(&time), "%H:%M:%S"); // 밀리초는 추가 구현 필요
+			return timeStream.str();
 		}
 
 		std::string GetType(const Enum::eType _eType)

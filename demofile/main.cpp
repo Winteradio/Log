@@ -66,7 +66,7 @@ void Example_Time()
 	while(true)
 	{
 		static int value = 0;
-		if (value > 5000)
+		if (value > 100)
 		{
 			break;
 		}

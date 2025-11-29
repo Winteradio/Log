@@ -26,3 +26,5 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${HEADER_LIST})
 target_link_libraries(${PROJECT_NAME} PRIVATE LogProject)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
