@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.20)
 project(LogProject LANGUAGES CXX)
 
 # ------ Create the library ------- #
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Library.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/external/CMake/Library.cmake)
 
-option(BUILD_SHARED_LIBS "Build a shared library instead of a static one" OFF)
+option(BUILD_SHARED_LIBS "Build a shared library instead of a static one" ON)
 
 set(MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(LOG_DIR ${MAIN_DIR}/Log)
@@ -39,7 +39,7 @@ install_library(
 )
 
 # ------ Set the project options ------ #
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Project.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/external/CMake/Project.cmake)
 
 project_options()
 
@@ -49,13 +49,7 @@ option(BUILD_DEMO_FILE "Build the demo file" ON)
 if (BUILD_DEMO_FILE)
     message(STATUS "# Create the demofile project")
 
-    if (BUILD_SHARED_LIBS)
-        set(EXTDEMOFILE_DIR ${MAIN_DIR}/externaldemofile)
-
-        add_subdirectory(${EXTDEMOFILE_DIR})
-    else()
-        set(DEMOFILE_DIR ${MAIN_DIR}/demofile)
-        
-        add_subdirectory(${DEMOFILE_DIR})
-    endif()
+    set(DEMOFILE_DIR ${MAIN_DIR}/demofile)
+    
+    add_subdirectory(${DEMOFILE_DIR})
 endif()
