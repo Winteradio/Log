@@ -8,15 +8,11 @@ if (WIN32)
 
     set(STATIC_LIBRARY lib)
     set(SHARED_LIBRARY dll)
-
-	set(LIBRARY_FORMAT ${STATIC_LIBRARY})
 else()
     message(STATUS "- Platform : Others")
 
     set(STATIC_LIBRARY a)
     set(SHARED_LIBRARY so)
-
-	set(LIBRARY_FORMAT ${STATIC_LIBRARY})
 endif()
 
 set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build Type")
@@ -29,6 +25,19 @@ set(EXT_LIST "")
 set(EXT_LIBRARIES "")
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${EXT_INCLUDE_DIR})
+
+# ------ Find the library extension ----- #
+function(get_library_extension RESULT BUILD_SHARED)
+    if (WIN32)
+        set(${RESULT} "lib" PARENT_SCOPE)
+    else()
+        if (BUILD_SHARED)
+            set(${RESULT} "so" PARENT_SCOPE)
+        else()
+            set(${RESULT} "a" PARENT_SCOPE)
+        endif()
+    endif()
+endfunction()
 
 # ------ Add the external project ------- #
 function(add_external_library)
@@ -102,9 +111,11 @@ function(add_external_library)
  			-DBUILD_DEMO_FILE=${ARG_BUILD_DEMO_FILE}
 	)
 
+	get_library_extension(LIB_EXT ${ARG_BUILD_SHARED_LIBS})
+
 	message(STATUS "# Link the external library")
 
-	target_link_libraries(${PROJECT_NAME} PUBLIC ${EXT_LIB_DIR}/${ARG_LIBRARY_NAME}.${LIBRARY_FORMAT})
+	target_link_libraries(${PROJECT_NAME} PUBLIC ${EXT_LIB_DIR}/${ARG_LIBRARY_NAME}.${LIB_EXT})
 	add_dependencies(${PROJECT_NAME} ${ARG_PROJECT_NAME})
 
 endfunction()
