@@ -6,6 +6,8 @@
 #include "LogConstants.h"
 #include "LogMessage.h"
 
+#include <string.h>
+
 namespace Log
 {
 	void Init(const unsigned short _nMaxCount, const uint8_t _eMode, const uint8_t _eLevel);
