@@ -8,11 +8,15 @@ if (WIN32)
 
     set(STATIC_LIBRARY lib)
     set(SHARED_LIBRARY dll)
+
+	set(LIBRARY_FORMAT ${STATIC_LIBRARY})
 else()
     message(STATUS "- Platform : Others")
 
     set(STATIC_LIBRARY a)
     set(SHARED_LIBRARY so)
+
+	set(LIBRARY_FORMAT ${STATIC_LIBRARY})
 endif()
 
 set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build Type")
@@ -100,7 +104,7 @@ function(add_external_library)
 
 	message(STATUS "# Link the external library")
 
-	target_link_libraries(${PROJECT_NAME} PUBLIC ${EXT_LIB_DIR}/${ARG_LIBRARY_NAME}.${STATIC_LIBRARY})
+	target_link_libraries(${PROJECT_NAME} PUBLIC ${EXT_LIB_DIR}/${ARG_LIBRARY_NAME}.${LIBRARY_FORMAT})
 	add_dependencies(${PROJECT_NAME} ${ARG_PROJECT_NAME})
 
 endfunction()
