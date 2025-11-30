@@ -1,5 +1,13 @@
+set(PROJECT_NAME LogProject)
+
+if (TARGET ${PROJECT_NAME})
+    message(STATUS "# ${PROJECT_NAME} is already defined. Skipping build configuration.")
+    
+    return()
+endif()
+
 cmake_minimum_required(VERSION 3.20)
-project(LogProject LANGUAGES CXX)
+project(${PROJECT_NAME} LANGUAGES CXX)
 
 # ------ Create the library ------- #
 include(${CMAKE_SOURCE_DIR}/external/CMake/Library.cmake)
