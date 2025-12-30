@@ -23,7 +23,7 @@ namespace Log
 
 		if (Enum::eMode_None != (eMode & Enum::eMode_Print))
 		{
-			std::cout << strLog << std::endl;
+			printf("%s\n", strLog.c_str());
 		}
 
 		if (Enum::eMode_None != (eMode & Enum::eMode_Save))

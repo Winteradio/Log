@@ -34,7 +34,7 @@ namespace Log
 	{
 		if (_eType == Enum::eType_Max)
 		{
-			std::cout << "[LOG-ERROR] Failed to set log, the log type is invalid";
+			printf("[LOG-ERROR] Failed to set log, the log type is invalid\n");
 			return;
 		}
 
@@ -79,7 +79,7 @@ namespace Log
 		const MessageList messageList = GetLogs(_eType);
 		for (const auto& strMessage : messageList)
 		{
-			std::cout << strMessage << std::endl;
+			printf("%s\n", strMessage);
 		}
 	}
 
