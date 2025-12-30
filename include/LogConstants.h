@@ -79,7 +79,7 @@ namespace Log
 			return *this;
 		}
 
-		MetaData& operator=(MetaData&& _rhs)
+		MetaData& operator=(MetaData&& _rhs) noexcept
 		{
 			if (this != &_rhs)
 			{
