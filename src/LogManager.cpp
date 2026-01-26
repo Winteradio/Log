@@ -79,7 +79,7 @@ namespace Log
 		const MessageList messageList = GetLogs(_eType);
 		for (const auto& strMessage : messageList)
 		{
-			printf("%s\n", strMessage);
+			printf("%s\n", strMessage.c_str());
 		}
 	}
 
