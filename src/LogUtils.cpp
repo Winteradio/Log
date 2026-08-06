@@ -97,7 +97,7 @@ namespace Log
 			auto time = std::chrono::system_clock::to_time_t(now);
 				
 			std::stringstream timeStream;
-			timeStream << std::put_time(std::localtime(&time), "%H:%M:%S"); // 밀리초는 추가 구현 필요
+			timeStream << std::put_time(std::localtime(&time), "%H:%M:%S");
 			return timeStream.str();
 		}
 
